@@ -1,32 +1,37 @@
+//uint *assigned;
+
 #ifndef	SIMULATED_ANNEALING
-unsigned int alg1 ( unsigned int *dislikes, unsigned int *rooms , unsigned int
-nstudents )
+uint alg1 ( uint *dislikes, uint *rooms , uint
+nstudents , uint max_iterations )
 #else
 #include <math.h>
-unsigned int alg2 ( unsigned int *dislikes, unsigned int *rooms , unsigned int
-nstudents )
+uint alg2 ( uint *dislikes, uint *rooms , uint
+nstudents , uint max_iterations )
 #endif
 {
-	unsigned int *assigned;
-	unsigned int i;
-	unsigned int nrooms = nstudents / 2;
-	unsigned int laststudent = nstudents - 1;
-	unsigned int s1, s2;
-	unsigned int s3, s4;
-	unsigned int sa, sb;
-	unsigned int r1, r2;
-	unsigned int p1, p2;
-	unsigned int cost;
-	int dcost;
+	uint *assigned;
+	uint i;
+	uint nrooms = nstudents / 2;
+	uint s1, s2;
+	uint s3, s4;
+	uint sa, sb;
+	uint r1, r2;
+	uint p1, p2;
+	uint cost;
+	long dcost;
 #ifdef	SIMULATED_ANNEALING
-	float t;
+	real t;
 #endif
 
 	//	create the assigned array
-	assigned = (unsigned int*) malloc( nstudents * sizeof( unsigned int ) );
+	assigned = (uint*) malloc( nstudents * sizeof( uint ) );
+	//assigned = (uint*) calloc( nstudents , sizeof(uint) );
 
 	//	clear rooms
-	memset( assigned , UINT_MAX , nstudents * sizeof( unsigned int ) );
+	for ( i = 0 ; i < nstudents ; ++i )
+		assigned[ i ] = UMAX;
+
+	//debug_assigned_vector( assigned , nstudents );
 
 
 	//	randomly assign rooms & compute total cost
@@ -35,17 +40,17 @@ nstudents )
 	{
 		do
 		{
-			s1 = RANDGEN(0,laststudent);
+			s1 = randgen_max(nstudents);
 		}
-		while ( assigned[ s1 ] < UINT_MAX );
+		while ( assigned[ s1 ] < UMAX );
 		assigned[ s1 ] = i;
 		rooms[ i * 2     ] = s1;
 
 		do
 		{
-			s2 = RANDGEN(0,laststudent);
+			s2 = randgen_max(nstudents);
 		}
-		while ( assigned[ s2 ] < UINT_MAX );
+		while ( assigned[ s2 ] < UMAX );
 		assigned[ s2 ] = i;
 		rooms[ i * 2 + 1 ] = s2;
 
@@ -53,23 +58,16 @@ nstudents )
 	}
 
 #ifdef	SIMULATED_ANNEALING
-	t = 0.0f;
+	t = 0.0;
 #endif
-	i = MAX_ITERATIONS;
+	i = max_iterations;
 	while ( i )
 	{
-		//printf("%d\n", i);
-		//debug_room_matrix(rooms,nrooms);
-		//debug_assigned_vector(assigned,nstudents);
-		//printf("\tCost: %d\n" , cost);
-		//getchar();
-
-
 		//	find two students which are not roommates
 		do
 		{
-			s1 = RANDGEN(0,laststudent);
-			s3 = RANDGEN(0,laststudent);
+			s1 = randgen_max(nstudents);
+			s3 = randgen_max(nstudents);
 		}
 		while ( s1 == s3 || assigned[ s1 ] == assigned[ s3 ] );
 
@@ -97,7 +95,7 @@ nstudents )
 #ifndef SIMULATED_ANNEALING
 		if ( dcost < 0 )
 #else
-		if ( dcost < 0 || exp( -dcost / t ) >= ( (float)rand() / (float)RAND_MAX ) )
+		if ( dcost < 0 || exp( -dcost / t ) >= randgenR() )
 #endif
 		{
 			//	swap s2 and s4
@@ -106,7 +104,7 @@ nstudents )
 			assigned[ s2 ] = r2;
 			assigned[ s4 ] = r1;
 			cost += dcost;
-			i = MAX_ITERATIONS;
+			i = max_iterations;
 		}
 		else
 			--i;
