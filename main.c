@@ -1,9 +1,43 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <stdlib.h>
+#include <limits.h>
+#include <string.h>
+
+#define MAX_ITERATIONS 1000
+#define RANDGEN(a,b)	\
+	( ( (float)rand() / (float)RAND_MAX ) * ( (b) - (a) ) + (a) )
+
+
+void debug_room_matrix( unsigned int *rooms , unsigned int nrooms )
+{
+	unsigned int i, j;
+	printf("Current rooms matrix:\n");
+	for ( i = 0 ; i < nrooms ; ++i )
+	{
+		printf("\t");
+		for ( j = 0 ; j < 2 ; ++j )
+			printf("%u ", rooms[ i * 2 + j ]);
+		printf("\n");
+	}
+	getchar();
+}
+
+void debug_assigned_vector( unsigned int *assigned , unsigned int nstudents )
+{
+	unsigned int i;
+	printf("Current assigned vector:\n");
+	for ( i = 0 ; i < nstudents ; ++i )
+	{
+		printf("\t%u\n", assigned[ i ]);
+	}
+	getchar();
+}
+
 #include "distribute.h"
-//#define SIMULATED_ANNEALING
-//#include "distribute.h"
+#define SIMULATED_ANNEALING
+#include "distribute.h"
 
 void debug_dislike_matrix( unsigned int *dislikes , unsigned int nstudents )
 {
@@ -25,6 +59,7 @@ int main ( int argc , char *argv[] )
 	unsigned int *dislikes;
 	unsigned int *rooms;
 	unsigned int i, j;
+	time_t seed = time(NULL);
 
 	if ( argc > 1 )
 		nstudents = strtol( argv[1] , NULL , 10 );
@@ -49,16 +84,18 @@ int main ( int argc , char *argv[] )
 			= RANDGEN(1,10);
 	}
 
-	debug_dislike_matrix( dislikes , nstudents );
+	//debug_dislike_matrix( dislikes , nstudents );
 
 	//	standard version
+	memset( rooms , 0 , nstudents * sizeof(unsigned int) );
+	srand(seed);
 	unsigned int c1 = alg1( dislikes , rooms , nstudents );
 	//	simulated annealing
-	//c2 = alg2();
+	memset( rooms , 0 , nstudents * sizeof(unsigned int) );
+	srand(seed);
+	unsigned int c2 = alg2( dislikes , rooms , nstudents );
 
-	printf("Solution:");
-	debug_room_matrix( rooms , nstudents / 2 );
-	printf("%u\n", c1);
+	printf("%u;%u\n", c1, c2);
 
 	free(rooms);
 	free(dislikes);

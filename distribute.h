@@ -1,38 +1,11 @@
-#include <stdlib.h>
-#include <limits.h>
-#include <string.h>
-
-#define MAX_ITERATIONS 1000
-#define RANDGEN(a,b)	\
-	( ( (float)rand() / (float)RAND_MAX ) * ( (b) - (a) ) + (a) )
-
-void debug_room_matrix( unsigned int *rooms , unsigned int nrooms )
-{
-	unsigned int i, j;
-	printf("Current rooms matrix:\n");
-	for ( i = 0 ; i < nrooms ; ++i )
-	{
-		printf("\t");
-		for ( j = 0 ; j < 2 ; ++j )
-			printf("%u ", rooms[ i * 2 + j ]);
-		printf("\n");
-	}
-	getchar();
-}
-
-void debug_assigned_vector( unsigned int *assigned , unsigned int nstudents )
-{
-	unsigned int i;
-	printf("Current assigned vector:\n");
-	for ( i = 0 ; i < nstudents ; ++i )
-	{
-		printf("\t%u\n", assigned[ i ]);
-	}
-	getchar();
-}
-
+#ifndef	SIMULATED_ANNEALING
 unsigned int alg1 ( unsigned int *dislikes, unsigned int *rooms , unsigned int
 nstudents )
+#else
+#include <math.h>
+unsigned int alg2 ( unsigned int *dislikes, unsigned int *rooms , unsigned int
+nstudents )
+#endif
 {
 	unsigned int *assigned;
 	unsigned int i;
@@ -45,6 +18,9 @@ nstudents )
 	unsigned int p1, p2;
 	unsigned int cost;
 	int dcost;
+#ifdef	SIMULATED_ANNEALING
+	float t;
+#endif
 
 	//	create the assigned array
 	assigned = (unsigned int*) malloc( nstudents * sizeof( unsigned int ) );
@@ -76,6 +52,9 @@ nstudents )
 		cost += dislikes[ s1 * nstudents + s2 ];
 	}
 
+#ifdef	SIMULATED_ANNEALING
+	t = 0.0f;
+#endif
 	i = MAX_ITERATIONS;
 	while ( i )
 	{
@@ -115,7 +94,11 @@ nstudents )
 		      ;
 
 		//	accept or discard
+#ifndef SIMULATED_ANNEALING
 		if ( dcost < 0 )
+#else
+		if ( dcost < 0 || exp( -dcost / t ) >= ( (float)rand() / (float)RAND_MAX ) )
+#endif
 		{
 			//	swap s2 and s4
 			rooms[ r1 * 2 + p1 ] = s4;
@@ -127,6 +110,9 @@ nstudents )
 		}
 		else
 			--i;
+#ifdef	SIMULATED_ANNEALING
+		t *= 0.999;
+#endif
 	}
 
 	free(assigned);

@@ -7,6 +7,9 @@ endif
 
 .PHONY: clean
 
+%.s: %.c
+	$(CC) $(CPPFLAGS) $(TARGET_ARCH) -S -o $@ $<
+
 all: main
 
 main.o: distribute.h
