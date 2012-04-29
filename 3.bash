@@ -3,6 +3,10 @@
 EXEC=$1
 OUTFILE=$2
 
+NSTART=40
+NSTOP=200
+NSTEP=4
+
 if [ -f "$OUTFILE" ];
 then
 	if [ -f "${OUTFILE}.all" ];
@@ -16,10 +20,10 @@ else
 	touch "$OUTFILE";
 fi;
 
-i=80;
-while [ "$i" -le "400" ];
+N=$NSTART;
+while [ "$N" -le "$NSTOP" ];
 do
-	$EXEC $i >> "$OUTFILE";
-	echo "$i";
-	i=$(( $i + 8 ));
+	$EXEC "$N" >> "$OUTFILE";
+	echo "$N";
+	N=$(( $N + $NSTEP ));
 done;

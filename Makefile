@@ -1,18 +1,11 @@
 CC		=	gcc
-CFLAGS	+=	-Wall -Wextra -std=c99 -pedantic
+CFLAGS	=	-Wall -Wextra -std=c99 -pedantic -g
 
-ifeq ($(MODE),dbg)
-CFLAGS	+=	-g
-endif
+.PHONY:	clean
 
-.PHONY: clean
-
-%.s: %.c
-	$(CC) $(CPPFLAGS) $(TARGET_ARCH) -S -o $@ $<
-
-all: main
-
-main.o: distribute.h
+all:	distribute
 
 clean:
-	$(RM) *.o main
+	$(RM) *.o distribute
+
+distribute.o: distribute.h
