@@ -216,15 +216,18 @@ int main ( int argc , char * argv[] ) {
 
 	MPI_Reduce( &lc1 , &c1 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
 	MPI_Reduce( &lc2 , &c2 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
-	MPI_Finalize();
 
-	//98. Output
-	print_uint( nstudents );
-	printf(";");
-	print_uint( c1 );
-	printf(";");
-	print_uint( c2 );
-	printf("\n");
+	if ( ! mpi_rank ) {
+		//98. Output
+		print_uint( nstudents );
+		printf(";");
+		print_uint( c1 );
+		printf(";");
+		print_uint( c2 );
+		printf("\n");
+	}
+
+	MPI_Finalize();
 	
 
 	// 99. Cleanup
