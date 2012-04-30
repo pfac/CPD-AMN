@@ -1,17 +1,16 @@
-#include <stdint.h>
+#include <errno.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <errno.h>
 #include <string.h>
 
 //#define MAX_ITERATIONS 1000
 
-
+typedef long unsigned uint;
+#define UMAX ULONG_MAX
 
 #ifndef	_LP64
 //	32 bits build
-typedef uint32_t uint;
-#define UMAX UINT32_MAX
 typedef float real;
 
 real random_real () {
@@ -20,20 +19,16 @@ real random_real () {
 
 
 
-#define print_uint(n)        ( printf(  "%lu" , (n) ) )
-#define fprint_uint(f,n)     ( fprintf( (f) , "%lu" , (n) ) )
-#define fscan_uint(f,n)      ( fscanf( (f) , "%lu" , (n) ) )
-#define parse_uint(s)        ( strtoull( (s) , NULL , 10 ) )
-
 #define fscan_real(f,r)      ( fscanf( (f) , "%f" , (r) ) )
 
 
 
 #else
 //	64 bits build
+#include <stdint.h>
 
-typedef uint64_t uint;
-#define UMAX UINT64_MAX
+//typedef uint64_t uint;
+//#define UMAX UINT64_MAX
 typedef double real;
 
 union _32to64
@@ -54,16 +49,15 @@ real random_real ()
 
 
 
-#define print_uint(n)        ( printf(  "%llu" , (n) ) )
-#define fprint_uint(f,n)        ( fprintf( (f) , "%llu" , (n) ) )
-#define fscan_uint(f,n)        ( fscanf( (f) , "%llu" , (n) ) )
-#define parse_uint(s)        ( strtoull( (s) , NULL , 10 ) )
-
 #define fscan_real(f,r)      ( fscanf( (f) , "%lf" , (r) ) )
 
-
-
 #endif//	_LP64
+
+
+#define print_uint(n)        ( printf(  "%lu" , (n) ) )
+#define fprint_uint(f,n)     ( fprintf( (f) , "%lu" , (n) ) )
+#define fscan_uint(f,n)      ( fscanf( (f) , "%lu" , (n) ) )
+#define parse_uint(s)        ( strtoul( (s) , NULL , 10 ) )
 
 
 
