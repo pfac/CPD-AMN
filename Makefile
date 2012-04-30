@@ -1,4 +1,4 @@
-CC		=	gcc
+CC		=	mpicc
 CFLAGS	=	-Wall -Wextra -std=c99 -pedantic -g
 
 .PHONY:	clean

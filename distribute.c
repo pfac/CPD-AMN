@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <mpi.h>
+
 //#define MAX_ITERATIONS 1000
 
 typedef long unsigned uint;
@@ -175,8 +177,11 @@ int main ( int argc , char * argv[] ) {
 	uint   i;
 	uint   j;
 	uint   laststudent;
+	uint   lc1;
+	uint   lc2;
 	uint   nstudents;
 	uint * rooms;
+	int    mpi_rank;
 
 	//0. Read arguments
 	if ( argc > 1 )
@@ -199,12 +204,19 @@ int main ( int argc , char * argv[] ) {
 		dislikes[ i * nstudents + j ] = 0;
 		dislikes[ j * nstudents + i ] = 0;
 	}
+
+	MPI_Init( &argc , &argv );
+	MPI_Comm_rank(MPI_COMM_WORLD,&mpi_rank);
 	
 	//1. No simulated annealing
-	c1 = distribute1( dislikes , rooms , nstudents );
+	lc1 = distribute1( dislikes , rooms , nstudents );
 
 	//2. Now with simulated annealing
-	c2 = distribute2( dislikes , rooms , nstudents );
+	lc2 = distribute2( dislikes , rooms , nstudents );
+
+	MPI_Reduce( &lc1 , &c1 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
+	MPI_Reduce( &lc2 , &c2 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
+	MPI_Finalize();
 
 	//98. Output
 	print_uint( nstudents );
@@ -216,8 +228,8 @@ int main ( int argc , char * argv[] ) {
 	
 
 	// 99. Cleanup
-	free( dislikes );
 	free( rooms );
+	free( dislikes );
 	
 	return 0;
 }
