@@ -19,3 +19,7 @@ distribute
 
 # System files
 .DS_Store
+
+# Output files
+*.err
+*.out

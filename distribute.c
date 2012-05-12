@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 #include <mpi.h>
 
@@ -43,10 +45,11 @@ union _32to64
 
 real random_real ()
 {
-	union _32to64 r;
-	r.u32[0] = arc4random();
-	r.u32[1] = arc4random();
-	return (real) r.u64 / (real) UMAX;
+	//union _32to64 r;
+	//r.u32[0] = arc4random();
+	//r.u32[1] = arc4random();
+	//return (real) r.u64 / (real) UMAX;
+	return (real) rand() / (real) RAND_MAX;
 }
 
 
@@ -184,6 +187,24 @@ int main ( int argc , char * argv[] ) {
 	int    mpi_rank;
 	int    mpi_size;
 
+	MPI_Init( &argc , &argv );
+	MPI_Comm_rank(MPI_COMM_WORLD,&mpi_rank);
+
+	{//debug
+		int r;
+		int mpi_size;
+		MPI_Comm_size (MPI_COMM_WORLD, &mpi_size);
+		for (r = 0; r < mpi_size; ++r)
+		{
+			if (r == mpi_rank)
+				fprintf (stderr, "%d\tProcess %d/%d\n", getpid(), mpi_rank, mpi_size);
+			MPI_Barrier (MPI_COMM_WORLD);
+		}
+	}
+
+	//0. Read arguments
+	if ( argc > 1 )
+		nstudents = parse_uint( argv[1] );
 
 	MPI_Init( &argc , &argv );
 	MPI_Comm_rank(MPI_COMM_WORLD,&mpi_rank);
@@ -248,7 +269,7 @@ int main ( int argc , char * argv[] ) {
 		// 	}
 		// 	MPI_Barrier (MPI_COMM_WORLD);
 		// }
-	
+
 	//1. No simulated annealing
 	lc1 = distribute1( dislikes , rooms , nstudents );
 
@@ -269,6 +290,24 @@ int main ( int argc , char * argv[] ) {
 	MPI_Reduce( &lc1 , &c1 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
 	MPI_Reduce( &lc2 , &c2 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
 
+	{//debug
+		int r;
+		int mpi_size;
+		MPI_Comm_size (MPI_COMM_WORLD, &mpi_size);
+		for (r = 0; r < mpi_size; ++r)
+		{
+			if (r == mpi_rank)
+				fprintf (stderr, "%d\tProcess %d/%d\n\t", getpid(), mpi_rank, mpi_size);
+				fprint_uint (stderr,nstudents);
+				fprintf (stderr, ";");
+				fprint_uint (stderr, c1);
+				fprintf (stderr, ";");
+				fprint_uint (stderr, c2);
+				fprintf (stderr, "\n");
+			MPI_Barrier (MPI_COMM_WORLD);
+		}
+	}
+
 	if ( ! mpi_rank ) {
 		//98. Output
 		print_uint( nstudents );
@@ -279,12 +318,11 @@ int main ( int argc , char * argv[] ) {
 		printf("\n");
 	}
 
-	MPI_Finalize();
-	
-
 	// 99. Cleanup
 	free( rooms );
-	free (dislikes);
+	free( dislikes );
+
+	MPI_Finalize();
 	
 	return 0;
 }

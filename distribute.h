@@ -31,7 +31,7 @@ uint distribute2 ( uint * dislikes , uint * rooms , uint nstudents )
 	if ( ! assigned )
 	{
 		fprintf( stderr , "Failed to allocate memory for the assigned vector!\n" );
-		fprintf( stderr , "\tERROR %d : %s\n" , errno , strerror( errno ) );
+		fprintf( stderr , "\tERROR %d : %s\n" , errno , strerror(errno) );
 		exit(errno);
 	}
 
