@@ -9,6 +9,8 @@
 #PBS -e 601-2.err
 #PBS -o 601-2.out
 #
+#PBS -V
+#
 
 EXEC="distribute"
 
@@ -21,6 +23,6 @@ cd "$PBS_O_WORKDIR";
 N=$NSTART;
 while [ "$N" -le "$NSTOP" ];
 do
-	mpirun -np 48 -machinefile $PBS_NODEFILE $EXEC "$N";
+	mpirun -np 48 -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
 	N=$(( $N + $NSTEP ));
 done;

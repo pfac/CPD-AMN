@@ -1,13 +1,15 @@
 #!/bin/bash
 #
 #PBS -N distribute
-#PBS -l nodes=4:r601:ppn=24
+#PBS -l nodes=3:r601:ppn=24
 #PBS -l walltime=05:00
 #
 #
 #PBS -m bea
-#PBS -e 601.err
-#PBS -o 601.out
+#PBS -e 601-3.err
+#PBS -o 601-3.out
+#
+#PBS -V
 #
 
 EXEC="distribute"
@@ -21,6 +23,6 @@ cd "$PBS_O_WORKDIR";
 N=$NSTART;
 while [ "$N" -le "$NSTOP" ];
 do
-	mpirun -np 96 -machinefile $PBS_NODEFILE $EXEC "$N";
+	mpirun -np 72 -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
 	N=$(( $N + $NSTEP ));
 done;
