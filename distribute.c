@@ -236,6 +236,8 @@ int main ( int argc , char * argv[] ) {
 
 	dislikes = (uint *) malloc( nstudents * nstudents * sizeof( uint ) );
 
+	srand (time (NULL));
+
 	if (!mpi_rank)
 	{
 		//0. Generate dislike matrices
