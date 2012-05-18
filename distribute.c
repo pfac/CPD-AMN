@@ -18,7 +18,8 @@ typedef long unsigned uint;
 typedef float real;
 
 real random_real () {
-	return (real) arc4random() / (real) UMAX;
+	// return (real) arc4random() / (real) UMAX;
+	return (real) rand() / (real) RAND_MAX;
 }
 
 
@@ -45,10 +46,10 @@ union _32to64
 
 real random_real ()
 {
-	//union _32to64 r;
-	//r.u32[0] = arc4random();
-	//r.u32[1] = arc4random();
-	//return (real) r.u64 / (real) UMAX;
+	// union _32to64 r;
+	// r.u32[0] = arc4random();
+	// r.u32[1] = arc4random();
+	// return (real) r.u64 / (real) UMAX;
 	return (real) rand() / (real) RAND_MAX;
 }
 
@@ -323,6 +324,6 @@ int main ( int argc , char * argv[] ) {
 	free( dislikes );
 
 	MPI_Finalize();
-	
+
 	return 0;
 }
