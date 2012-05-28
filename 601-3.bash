@@ -2,7 +2,7 @@
 #
 #PBS -N distribute
 #PBS -l nodes=3:r601:ppn=24
-#PBS -l walltime=15:00
+#PBS -l walltime=30:00
 #
 #
 #PBS -m bea
