@@ -67,62 +67,22 @@
 \begin{document}
 \maketitle
 
-\section{Introduction}
-%	Contextualização
-Physical annealing is a process through which a melted metal is allowed to cool slowly, thus forming a defect-free crystal with a regular structure. At higher temperatures the atoms move more freely and rearrange their structure easily. As the temperature decreases, the ability for the atoms to move is diminished since they possess less energy. This allows the material to reach a state of minimum energy -- the crystalline form.
-
-Simulated annealing is an iterative method based on the process of physical annealing for solving combinatorial optimization problems. The system starts at a given (high) ``temperature'', which allows the algorithm to choose and follow a worse solution according to a probability function based on the ``temperature''. In each iteration, a cooling function decreases the system ``temperature'', also decreasing the probability for a worse solution to be followed. Without simulated annealing, the algorithm never accepts a worse solution, which causes it to be trapped in local solutions. With simulated annealing, the algorithm is allowed to change the system state from a local solution to a worse state, which eventually leads to a state closer to the global solution.
-
-%	Motivação
-This document aims to study the impact of the simulated annealing method in an usual use case: the room assignment problem.
-
-%	Objectivos
-In this project two versions are implemented to solve this problem: the first being the sequential implementation and the second being a parallel implementation using MPI. Both versions implement two approaches, one using a strictly minimizing method and another using the simulated annealing method. For each version, both approaches are tested against the same matrix of incompatibility values for a range of different numbers of students to be assigned. The simulated annealing approach is also also tested using different initial temperature values.
-
-
-
-
-\section{The Room Assignment Problem}
-The room assignment problem is a combinatorial optimization problem where the simulated annealing method allows better solutions to be achieved.
-
-The problem consists in assigning $n$ students to $\frac{n}{2}$ rooms, but in a way that minimizes the probability of a conflict occurring. The chances for such conflicts to occur are measured in a matrix $D$ of $n^{2}$ integer values, where each element $d_{i,j} = d_{j,i}$ represents how much students $i$ and $j$ dislike each other. In any iteration, the current system state is represented by a vector $S$ of $\frac{n}{2}$ pairs of elements, where each pair $(i,j)$ represents the two students assigned to a room\footnote{Since $d_{i,j}=d_{j,i}$ then $(i,j)\in S\Leftrightarrow(j,i)\in S$. In other words, the order in the pair is neglected.}. The total cost of a state $S$ is given by the sum of all the $d_{i,j}$, where $(i,j)\in S$. A formal definition of this problem as an optimization problem is presented in \cref{fig:formaldef}.
-
-\begin{figure}
-	\begin{center}
-		\fbox{
-		\parbox{0.9\columnwidth}{
-			\paragraph{Decision Variables}
-			\begin{itemize}
-				\item{$d_{i,j}$ --- level of incompatibility between the students $i$ and $j$;}
-			\end{itemize}
-			
-			\paragraph{Decision Restrictions}
-			\begin{itemize}
-				\item{$0 \leq i \leq n$}
-				\item{$0 \leq j \leq n$}
-				\item{$\forall i,j : 0 \leq d_{i,j} \leq 10$}
-			\end{itemize}
-			
-			\paragraph{Objective Function}
-			\begin{IEEEeqnarray}{lCr}
-				\mathrm{min}\;:\;\mathbf{Cost}(S) & = & \sum\left\{d_{i,j}:(i,j)\in S\right\}
-			\end{IEEEeqnarray}
-		}
-		}
-	\end{center}
-	\caption{Formal definition of the Room Assingment Problem as an optimization problem.}
-	\label{fig:formaldef}
-\end{figure}
-
-The goal in this problem is to find a state for which the cost is minimized. However, for $n$ students there are $(n-1)\times (n-3)\times\ldots\times 3$ possible distributions -- this has the order of magnitude of $\sqrt{n!}$, which makes it unfeasible to analyze every single possible state. Alternatively, with an heuristic method, while it does not guarantee the optimal solution, it allows to calculate an approximation in significantly less time.
-
-The heuristic approach to this problem starts by generating a random room distribution. In each iteration, two students in distinct rooms are randomly selected and swapped. If the new state has a lower cost, the change is accepted, otherwise it is reversed.
-
-The simulated annealing method changes how the decision about accepting or refusing the swap is taken. With no simulated annealing, only a state with lower cost is accepted. This causes the system to be trapped in local minima. With simulated annealing, the system is initialized at a given (high) temperature and a higher cost state is accepted with probability $e^{-\Delta/T}$, where $\Delta$ is the difference between the cost of the two states (before and after the swap). A cooling function is used in each iteration to (slowly) decrease the temperature.
+\input{report/01-intro.tex}
+\input{report/02-problem.tex}
 
 \section{Implementation}
+The program implemented to solve the Roommate Assignment problem uses both approaches -- with and without simulated annealing -- with the same generated incompatibility matrix. The problem is solved by a function named \texttt{distribute} that is included at two distinct points of the code with different preprocessor environments. This benefits debugging by reusing the common code of both approaches.
+
+The number of students -- $n$ -- is given as an argument and used to alocate the global incompatibility matrix ($n^{2}$) and the room distribution vector ($n$), which is used by the \texttt{distribute} function to output the result. The program then procedes in generating the values for the incompatibility matrix, and injects a perfect solution.
+
+The \texttt{distribute} function starts by alocating an auxiliary vector, which is used to track the room assigned to each student (in contrast with the output vector that tracks the students assigned to each room). An initial student distribution is then randomly generated, and the current state cost is calculated. In the simulated annealing approach, the initial temperature is set at the end of this stage.
+
+The iterative process to find a solution in the \texttt{distribute} function is limited by the number of stagnant iterations ($100\times n$). In each iteration, two students in distinct rooms are randomly selected\footnote{Both rooms and students are identified by integer non-negative numbers. The former correspond to an index in the output vector, the latter to an index in the auxiliary vector.} and the cost of swapping them is calculated. If the cost of the swap is less than the current cost -- or, with simulated annealing, if the temperature is high enough for $e^{-\Delta/T}$ to exceed a randomly generated value -- the swap is accepted and the stagnant iterations counter is reset; otherwise, the state is not modified and the counter is incremented. With simulated annealing, the temperature is slightly reduced at the end of each iteration.
 
 \subsection{Parallelism}
+The algorithm used to solve the Roommate Assignment problem is embarassing parallel: if each process calculates a different solution using a different sequence of pseudo-random numbers, multiple processes are more likely to get closer to the perfect solution using the same stagnant iterations threshold.
+
+The parallel version of this program was implemented using a \textit{Message Passing Interface} (MPI) library. After the proper library initialization, the root process reads the value for $n$ and broadcasts it to every other process. Each process then proceeds to alocate the necessary memory for the incompatibility matrix. Likewise, the root process then generates the matrix values and broadcasts it to every other process. The room distribution vector is alocated by each process, and all solve the problem independently of the rest. In the end, a reduction to find the minimum cost is performed for each approach, and the root process outputs those values as the final results.
 
 \section{Experimental Comparison}
 
