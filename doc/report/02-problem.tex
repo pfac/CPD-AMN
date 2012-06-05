@@ -1,0 +1,37 @@
+\section{The Room Assignment Problem}
+The room assignment problem is a combinatorial optimization problem where the simulated annealing method allows better solutions to be achieved.
+
+The problem consists in assigning $n$ students to $\frac{n}{2}$ rooms, but in a way that minimizes the probability of a conflict occurring. The chances for such conflicts to occur are measured in a matrix $D$ of $n^{2}$ integer values, where each element $d_{i,j} = d_{j,i}$ represents how much students $i$ and $j$ dislike each other. In any iteration, the current system state is represented by a vector $S$ of $\frac{n}{2}$ pairs of elements, where each pair $(i,j)$ represents the two students assigned to a room\footnote{Since $d_{i,j}=d_{j,i}$ then $(i,j)\in S\Leftrightarrow(j,i)\in S$. In other words, the order in the pair is neglected.}. The total cost of a state $S$ is given by the sum of all the $d_{i,j}$, where $(i,j)\in S$. A formal definition of this problem as an optimization problem is presented in \cref{fig:formaldef}.
+
+\begin{figure}
+	\begin{center}
+		\fbox{
+		\parbox{0.9\columnwidth}{
+			\paragraph{Decision Variables}
+			\begin{itemize}
+				\item{$d_{i,j}$ --- level of incompatibility between the students $i$ and $j$;}
+			\end{itemize}
+			
+			\paragraph{Decision Restrictions}
+			\begin{itemize}
+				\item{$0 \leq i \leq n$}
+				\item{$0 \leq j \leq n$}
+				\item{$\forall i,j : 0 \leq d_{i,j} \leq 10$}
+			\end{itemize}
+			
+			\paragraph{Objective Function}
+			\begin{IEEEeqnarray}{lCr}
+				\mathrm{min}\;:\;\mathbf{Cost}(S) & = & \sum\left\{d_{i,j}:(i,j)\in S\right\}
+			\end{IEEEeqnarray}
+		}
+		}
+	\end{center}
+	\caption{Formal definition of the Room Assignment Problem as an optimization problem.}
+	\label{fig:formaldef}
+\end{figure}
+
+The goal in this problem is to find a state for which the cost is minimized. However, for $n$ students there are $(n-1)\times (n-3)\times\ldots\times 3$ possible distributions -- this has the order of magnitude of $\sqrt{n!}$, which makes it unfeasible to analyze every single possible state. Alternatively, with an heuristic method, while it does not guarantee the optimal solution, it allows to calculate an approximation in significantly less time.
+
+The heuristic approach to this problem starts by generating a random room distribution. In each iteration, two students in distinct rooms are randomly selected and swapped. If the new state has a lower cost, the change is accepted, otherwise it is reversed.
+
+The simulated annealing method changes how the decision about accepting or refusing the swap is taken. With no simulated annealing, only a state with lower cost is accepted. This causes the system to be trapped in local minimum. With simulated annealing, the system is initialized at a given (high) temperature and a higher cost state is accepted with probability $e^{-\Delta/T}$, where $\Delta$ is the difference between the cost of the two states (before and after the swap). A cooling function is used in each iteration to (slowly) decrease the temperature.

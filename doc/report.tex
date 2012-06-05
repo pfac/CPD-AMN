@@ -73,16 +73,16 @@
 \section{Implementation}
 The program implemented to solve the Roommate Assignment problem uses both approaches -- with and without simulated annealing -- with the same generated incompatibility matrix. The problem is solved by a function named \texttt{distribute} that is included at two distinct points of the code with different preprocessor environments. This benefits debugging by reusing the common code of both approaches.
 
-The number of students -- $n$ -- is given as an argument and used to alocate the global incompatibility matrix ($n^{2}$) and the room distribution vector ($n$), which is used by the \texttt{distribute} function to output the result. The program then procedes in generating the values for the incompatibility matrix, and injects a perfect solution.
+The number of students -- $n$ -- is given as an argument and used to allocate the global incompatibility matrix ($n^{2}$) and the room distribution vector ($n$), which is used by the \texttt{distribute} function to output the result. The program then proceeds in generating the values for the incompatibility matrix, and injects a perfect solution.
 
-The \texttt{distribute} function starts by alocating an auxiliary vector, which is used to track the room assigned to each student (in contrast with the output vector that tracks the students assigned to each room). An initial student distribution is then randomly generated, and the current state cost is calculated. In the simulated annealing approach, the initial temperature is set at the end of this stage.
+The \texttt{distribute} function starts by allocating an auxiliary vector, which is used to track the room assigned to each student (in contrast with the output vector that tracks the students assigned to each room). An initial student distribution is then randomly generated, and the current state cost is calculated. In the simulated annealing approach, the initial temperature is set at the end of this stage.
 
 The iterative process to find a solution in the \texttt{distribute} function is limited by the number of stagnant iterations ($100\times n$). In each iteration, two students in distinct rooms are randomly selected\footnote{Both rooms and students are identified by integer non-negative numbers. The former correspond to an index in the output vector, the latter to an index in the auxiliary vector.} and the cost of swapping them is calculated. If the cost of the swap is less than the current cost -- or, with simulated annealing, if the temperature is high enough for $e^{-\Delta/T}$ to exceed a randomly generated value -- the swap is accepted and the stagnant iterations counter is reset; otherwise, the state is not modified and the counter is incremented. With simulated annealing, the temperature is slightly reduced at the end of each iteration.
 
 \subsection{Parallelism}
-The algorithm used to solve the Roommate Assignment problem is embarassing parallel: if each process calculates a different solution using a different sequence of pseudo-random numbers, multiple processes are more likely to get closer to the perfect solution using the same stagnant iterations threshold.
+The algorithm used to solve the Roommate Assignment problem is embarrassing parallel: if each process calculates a different solution using a different sequence of pseudo-random numbers, multiple processes are more likely to get closer to the perfect solution using the same stagnant iterations threshold.
 
-The parallel version of this program was implemented using a \textit{Message Passing Interface} (MPI) library. After the proper library initialization, the root process reads the value for $n$ and broadcasts it to every other process. Each process then proceeds to alocate the necessary memory for the incompatibility matrix. Likewise, the root process then generates the matrix values and broadcasts it to every other process. The room distribution vector is alocated by each process, and all solve the problem independently of the rest. In the end, a reduction to find the minimum cost is performed for each approach, and the root process outputs those values as the final results.
+The parallel version of this program was implemented using a \textit{Message Passing Interface} (MPI) library. After the proper library initialization, the root process reads the value for $n$ and broadcasts it to every other process. Each process then proceeds to allocate the necessary memory for the incompatibility matrix. Likewise, the root process then generates the matrix values and broadcasts it to every other process. The room distribution vector is allocated by each process, and all solve the problem independently of the rest. In the end, a reduction to find the minimum cost is performed for each approach, and the root process outputs those values as the final results.
 
 \section{Experimental Comparison}
 
@@ -111,9 +111,11 @@ All the tests were performed in the SeARCH cluster\footnote{\texttt{http://searc
 \end{table}
 
 \subsection{Methodology}
-Each implementation described in this document was tested for different values of $n$ from 40 to 200 with a step of 4. The parallel implementation with MPI was also tested for the initial temperature of $1.0$ and $10.0$.
+Each implementation described in this document was tested for different values of $n$ from 40 to 200 with a step of 4. In each version, the approach with simulated annealing was also tested for the initial temperature of $1.0$ and $10.0$.
 
-For each set of parameters, only one execution was performed.
+For each set of parameters, only one execution was performed. 
+
+All the tests were performed using 1 to 6 SeARCH Group Hex nodes.
 
 \subsection{Results}
 
