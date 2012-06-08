@@ -1,15 +1,18 @@
 CC		=	mpicc
-CFLAGS	=	-Wall -Wextra -std=c99 -pedantic -g
+CFLAGS	=	-Wall -Wextra -std=c99 -pedantic
+LDFLAGS	=	-lm
 
 .PHONY:	clean search
 
+all:	CFLAGS+=-O3
 all:	distribute
 
-profile: LDFLAGS+=-L/share/apps/mpip-openmpi-gnu/lib -lmpiP
-profile: clean all
+profile: CFLAGS+=-g
+profile: LDFLAGS+=-L/share/apps/mpip-openmpi-gnu/lib -lmpiP -lbfd -liberty
+profile: all
 
 search:
-	module load gnu/mpich2-mx;
+	module load gnu/openmpi;
 	export;
 	$(MAKE)
 

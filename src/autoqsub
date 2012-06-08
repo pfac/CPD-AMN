@@ -1,0 +1,8 @@
+#!/bin/bash
+FIRST=$1;
+LAST=$2;
+
+for (( i=$FIRST ; i<=$LAST ; ++i ));
+do
+	qsub -V -e "data/out/hex_${i}.err" -o "data/out/hex_${i}.out" -N "distribute_${i}" -l nodes="${i}:hex:ppn=24" ./hex.bash;
+done;

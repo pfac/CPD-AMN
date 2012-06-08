@@ -236,7 +236,7 @@ int main ( int argc , char * argv[] ) {
 
 	dislikes = (uint *) malloc( nstudents * nstudents * sizeof( uint ) );
 
-	srand (time (NULL));
+	srand(time(NULL) * mpi_rank);
 
 	if (!mpi_rank)
 	{

@@ -2,13 +2,8 @@
 #
 #PBS -N distribute
 #PBS -l nodes=3:r601:ppn=24
-#PBS -l walltime=30:00
-#
-#
+#PBS -l walltime=2:00:00
 #PBS -m bea
-#PBS -e 601-3.err
-#PBS -o 601-3.out
-#
 #PBS -V
 #
 
@@ -19,10 +14,11 @@ NSTOP=200
 NSTEP=4
 
 cd "$PBS_O_WORKDIR";
+PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
 
 N=$NSTART;
 while [ "$N" -le "$NSTOP" ];
 do
-	mpirun -np 72 -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
+	mpirun -np $PROCESSES -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
 	N=$(( $N + $NSTEP ));
 done;
