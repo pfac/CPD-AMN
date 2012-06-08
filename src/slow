@@ -1,0 +1,22 @@
+#!/bin/bash
+
+PROCESSES="$1";
+EXEC="$2";
+NSTART="$3";
+NSTOP="$4";
+NSTEP="$5";
+
+OUTFILE="${PROCESSES}.csv";
+if [ ! -f "$OUTFILE" ];
+then
+	touch "$OUTFILE";
+fi;
+	
+N=$NSTART;
+while [ "$N" -le "$NSTOP" ];
+do
+	echo -n "${N}..." 1>&2;
+	mpiexec -np $PROCESSES $EXEC "$N" >> "$OUTFILE";
+	echo "DONE" 1>&2;
+	N=$(( $N + $NSTEP ));
+done;

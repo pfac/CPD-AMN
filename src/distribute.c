@@ -279,7 +279,7 @@ int main ( int argc , char * argv[] ) {
 	//2. Now with simulated annealing
 	lc2 = distribute2( dislikes , rooms , nstudents );
 
-		// //debug
+		//debug
 		// for (int r = 0; r < mpi_size; ++r)
 		// {
 		// 	MPI_Barrier (MPI_COMM_WORLD);
@@ -290,26 +290,8 @@ int main ( int argc , char * argv[] ) {
 		// 	MPI_Barrier (MPI_COMM_WORLD);
 		// }
 
-	MPI_Reduce( &lc1 , &c1 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
-	MPI_Reduce( &lc2 , &c2 , 1, MPI_UNSIGNED_LONG , MPI_MIN , 0 , MPI_COMM_WORLD );
-
-	{//debug
-		int r;
-		int mpi_size;
-		MPI_Comm_size (MPI_COMM_WORLD, &mpi_size);
-		for (r = 0; r < mpi_size; ++r)
-		{
-			if (r == mpi_rank)
-				fprintf (stderr, "%d\tProcess %d/%d\n\t", getpid(), mpi_rank, mpi_size);
-				fprint_uint (stderr,nstudents);
-				fprintf (stderr, ";");
-				fprint_uint (stderr, c1);
-				fprintf (stderr, ";");
-				fprint_uint (stderr, c2);
-				fprintf (stderr, "\n");
-			MPI_Barrier (MPI_COMM_WORLD);
-		}
-	}
+	MPI_Reduce (&lc1, &c1, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
+	MPI_Reduce (&lc2, &c2, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
 
 	if ( ! mpi_rank ) {
 		//98. Output

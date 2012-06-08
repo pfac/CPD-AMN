@@ -2,6 +2,11 @@ CC		=	mpicc
 CFLAGS	=	-Wall -Wextra -std=c99 -pedantic
 LDFLAGS	=	-lm
 
+
+%: %.o
+	$(CC) -o $@ $^ $(LOADLIBES) $(LDLIBS) $(LDFLAGS)
+
+
 .PHONY:	clean search
 
 all:	CFLAGS+=-O3
