@@ -2,11 +2,11 @@
 
 PROCESSES="$1";
 EXEC="$2";
-if [ "$5" ]; then NSTART="$3"; else NSTART=40; fi;
-if [ "$4" ]; then NSTOP="$4"; else NSTOP=200; fi;
+if [ "$5" ]; then NFIRST="$3"; else NFIRST=40; fi;
+if [ "$4" ]; then NLAST="$4"; else NLAST=200; fi;
 if [ "$5" ]; then NSTEP="$5"; else NSTEP=4; fi;
-if [ "$6" ]; then TSTART="$6"; else TSTART=1; fi;
-if [ "$7" ]; then TSTOP="$7"; else TSTOP=1; fi;
+if [ "$6" ]; then TFIRST="$6"; else TFIRST=1; fi;
+if [ "$7" ]; then TLAST="$7"; else TLAST=1; fi;
 if [ "$8" ]; then TSTEP="$8"; else TSTEP=1; fi;
 if [ "$9" ]; then RUNS="$9"; else RUNS=1; fi;
 
@@ -17,12 +17,12 @@ then
 fi;
 touch "$OUTFILE";
 	
-T="$TSTART";
-while [ "$T" -le "$TSTOP" ];
+T="$TFIRST";
+while [ "$T" -le "$TLAST" ];
 do
 	echo "$T" >> "$OUTFILE";
-	N="$NSTART";
-	while [ "$N" -le "$NSTOP" ];
+	N="$NFIRST";
+	while [ "$N" -le "$NLAST" ];
 	do
 		R="1";
 		RESULTS="$N";

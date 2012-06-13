@@ -1,11 +1,11 @@
 #!/bin/bash
 
 EXEC="$1";
-if [ "$2" ]; then NSTART="$2"; else NSTART=40; fi;
-if [ "$3" ]; then NSTOP="$3"; else NSTOP=200; fi;
+if [ "$2" ]; then NFIRST="$2"; else NFIRST=40; fi;
+if [ "$3" ]; then NLAST="$3"; else NLAST=200; fi;
 if [ "$4" ]; then NSTEP="$4"; else NSTEP=4; fi;
-if [ "$5" ]; then TSTART="$5"; else TSTART=1; fi;
-if [ "$6" ]; then TSTOP="$6"; else TSTOP=1; fi;
+if [ "$5" ]; then TFIRST="$5"; else TFIRST=1; fi;
+if [ "$6" ]; then TLAST="$6"; else TLAST=1; fi;
 if [ "$7" ]; then TSTEP="$7"; else TSTEP=1; fi;
 if [ "$8" ]; then RUNS="$8"; else RUNS=1; fi;
 
@@ -17,12 +17,12 @@ fi;
 touch "$OUTFILE";
 	
 
-T="$TSTART";
-while [ "$T" -le "$TSTOP" ];
+T="$TFIRST";
+while [ "$T" -le "$TLAST" ];
 do
 	echo "$T" >> "$OUTFILE";
-	N="$NSTART";
-	while [ "$N" -le "$NSTOP" ];
+	N="$NFIRST";
+	while [ "$N" -le "$NLAST" ];
 	do
 		R="1";
 		RESULTS="$N";

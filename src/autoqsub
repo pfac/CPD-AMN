@@ -6,15 +6,17 @@ LAST="$3";
 
 if [ "$#" -gt "3" ];
 then
-	if [ "$4" ]; then export NFIRST="$4"; fi;
-	if [ "$5" ]; then export NLAST="$5";  fi;
-	if [ "$6" ]; then export NSTEP="$6";  fi;
-	if [ "$7" ]; then export TFIRST="$7"; fi;
-	if [ "$8" ]; then export TLAST="$8";  fi;
-	if [ "$9" ]; then export TSTEP="$9";  fi;
+	if [ "$4" ];    then export NFIRST="$4";  fi;
+	if [ "$5" ];    then export NLAST="$5";   fi;
+	if [ "$6" ];    then export NSTEP="$6";   fi;
+	if [ "$7" ];    then export TFIRST="$7";  fi;
+	if [ "$8" ];    then export TLAST="$8";   fi;
+	if [ "$9" ];    then export TSTEP="$9";   fi;
+	if [ "${10}" ]; then export RUNS="${10}"; fi
 fi;
 
+XNAME=`basename "$EXEC"`;
 for (( i=$FIRST ; i<=$LAST ; ++i ));
 do
-	qsub -V -e "data/out/hex-${EXEC}_${i}.err" -o "data/out/hex-${EXEC}_${i}.out" -N "${EXEC}_${i}" -l nodes="${i}:hex:ppn=24" $EXEC;
+	qsub -V -e "data/out/hex-${XNAME}_${i}.err" -o "data/out/hex-${XNAME}_${i}.out" -N "${XNAME}_${i}" -l nodes="${i}:hex:ppn=24" $EXEC;
 done;

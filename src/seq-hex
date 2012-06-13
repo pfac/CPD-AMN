@@ -6,7 +6,7 @@
 #PBS -V
 #
 
-EXEC="distribute"
+EXEC="seq"
 
 if [ ! "$NFIRST" ]; then NFIRST="40"; fi;
 if [ ! "$NLAST"  ]; then NLAST="200"; fi;
@@ -21,12 +21,12 @@ if [ ! "$RUNS" ]; then RUNS="1"; fi;
 cd "$PBS_O_WORKDIR";
 PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
 
-T="$TSTART";
-while [ "$T" -le "$TSTOP" ];
+T="$TFIRST";
+while [ "$T" -le "$TLAST" ];
 do
 	echo "$T";
-	N="$NSTART";
-	while [ "$N" -le "$NSTOP" ];
+	N="$NFIRST";
+	while [ "$N" -le "$NLAST" ];
 	do
 		R="1";
 		RESULTS="$N";

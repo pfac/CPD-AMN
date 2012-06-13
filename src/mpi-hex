@@ -7,7 +7,7 @@
 #PBS -V
 #
 
-EXEC="distribute"
+EXEC="mpi"
 
 if [ ! "$NFIRST" ]; then NFIRST="40"; fi;
 if [ ! "$NLAST"  ]; then NLAST="200"; fi;
