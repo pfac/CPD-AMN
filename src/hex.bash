@@ -19,6 +19,7 @@ PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
 N=$NSTART;
 while [ "$N" -le "$NSTOP" ];
 do
-	mpirun -np $PROCESSES -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
+	#mpirun -np $PROCESSES -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
+	mpirun -np 4 -machinefile $PBS_NODEFILE -loadbalance $EXEC "$N";
 	N=$(( $N + $NSTEP ));
 done;

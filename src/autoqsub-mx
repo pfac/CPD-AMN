@@ -1,0 +1,8 @@
+#!/bin/bash
+FIRST=$1;
+LAST=$2;
+
+for (( i=$FIRST ; i<=$LAST ; ++i ));
+do
+	qsub -V -e "data/out/hex-mx-${i}.err" -o "data/out/hex-mx-${i}.out" -N "distribute-${i}" -l nodes="${i}:hex:myri:ppn=24" ./hex-mx.bash;
+done;
