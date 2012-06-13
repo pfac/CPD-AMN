@@ -17,9 +17,11 @@ profile: CFLAGS+=-g
 profile: LDFLAGS+=-L/share/apps/mpip-openmpi-gnu/lib -lmpiP -lbfd -liberty
 profile: all
 
+seq mpi:	distaux.o rand.o
+
 mpi:	CC=mpicc
 
-$(EXECS:%=%.o): distribute.h
+$(EXECS:%=%.o): distribute.h distaux.h
 
 clean:
 	$(RM) *.o $(EXECS)
