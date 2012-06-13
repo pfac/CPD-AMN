@@ -1,0 +1,5 @@
+\subsection{Parallelism}
+\label{sec:parallelism}
+The algorithm used to solve the Roommate Assignment problem is embarrassing parallel: if each process calculates a different solution using a different sequence of pseudo-random numbers, multiple processes are more likely to get closer to the perfect solution using the same stagnant iterations threshold.
+
+The parallel version of this program was implemented using a \textit{Message Passing Interface} (MPI) library. After the proper library initialization, the root process reads the value for $n$ and broadcasts it to every other process. Each process then proceeds to allocate the necessary memory for the incompatibility matrix. Likewise, the root process then generates the matrix values and broadcasts it to every other process. The room distribution vector is allocated by each process, and all solve the problem independently of the rest. In the end, a reduction to find the minimum cost is performed for each approach, and the root process outputs those values as the final results.

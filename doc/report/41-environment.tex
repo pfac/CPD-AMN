@@ -1,0 +1,24 @@
+\subsection{Environmental Setup}
+\label{sec:environment}
+All the tests were performed in the SeARCH cluster\footnote{\texttt{http://search.di.uminho.pt}} using a specific group of computational nodes, referred in this document as SeARCH Group Hex. This group contains six nodes, each with two hex-core processors and up to 48 GB of RAM. The detailed hardware description for the nodes in this group is presented in \cref{tab:grouphex}.
+
+\begin{table}[!htp]
+	\begin{center}
+		\begin{tabular}{ll}
+			\hline
+			Processors per node: & 2	\\
+			Processor model: & Intel\textregistered Xeon\textregistered X5650\\
+			Cores per processor: & 6	\\
+			Threads per core: & 2	\\
+			Clock frequency: & 2.66 GHz	\\
+			\hline
+			L1 cache: & 32 KB + 32 KB per core	\\
+			L2 cache: & 256 KB per core	\\
+			L3 cache: & 12 MB shared	\\
+			RAM: & 12 to 48 GB	\\
+			\hline
+		\end{tabular}
+		\caption[SeARCH Group Hex hardware description]{SeARCH Group Hex hardware description. See \cite{xeon5600} for further detail about this processor.}
+		\label{tab:grouphex}
+	\end{center}
+\end{table}
