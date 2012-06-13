@@ -185,6 +185,7 @@ int main ( int argc , char * argv[] ) {
 	uint   lc2;
 	uint   nstudents;
 	uint * rooms;
+	real   t0;
 	int    mpi_rank;
 	int    mpi_size;
 
@@ -216,20 +217,10 @@ int main ( int argc , char * argv[] ) {
 		//0. Read arguments
 		if ( argc > 1 )
 			nstudents = parse_uint( argv[1] );
-
-		// //0. Preparation
-		// laststudent = nstudents - 1;
-
-		// //0. Generate dislike matrices
-		// random_dislikes( dislikes , nstudents , 1 , 10 );
-
-		// //0. Add perfect solution
-		// for ( i = 0 ; i < laststudent ; i += 2 )
-		// {
-		// 	j = i + 1;
-		// 	dislikes[ i * nstudents + j ] = 0;
-		// 	dislikes[ j * nstudents + i ] = 0;
-		// }
+		if (argc > 2)
+			t0 = atof(argv[2]);
+		else
+			t0 = 1.0;
 	}
 	MPI_Bcast (&nstudents, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
 	laststudent = nstudents - 1;
@@ -274,10 +265,10 @@ int main ( int argc , char * argv[] ) {
 		// }
 
 	//1. No simulated annealing
-	lc1 = distribute1( dislikes , rooms , nstudents );
+	lc1 = distribute1(dislikes, rooms, nstudents);
 
 	//2. Now with simulated annealing
-	lc2 = distribute2( dislikes , rooms , nstudents );
+	lc2 = distribute2(dislikes, rooms, nstudents, t0);
 
 		//debug
 		// for (int r = 0; r < mpi_size; ++r)

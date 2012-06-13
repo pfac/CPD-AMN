@@ -1,9 +1,9 @@
 #include <math.h>
 
 #ifndef	SIMULATED_ANNEALING
-uint distribute1 ( uint * dislikes , uint * rooms , uint nstudents )
+uint distribute1 (uint * dislikes, uint * rooms, uint nstudents)
 #else
-uint distribute2 ( uint * dislikes , uint * rooms , uint nstudents )
+uint distribute2 ( uint * dislikes , uint * rooms , uint nstudents, real t0)
 #endif
 {
 	uint * assigned;
@@ -40,7 +40,7 @@ uint distribute2 ( uint * dislikes , uint * rooms , uint nstudents )
 
 	//3. While no MAX_ITERATIONS have passed since the last accepted swap
 #ifdef	SIMULATED_ANNEALING
-	t = 10.0;
+	t = t0;
 #endif
 	i = max;
 	while ( i )
