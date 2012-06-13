@@ -67,7 +67,7 @@ int main ( int argc , char * argv[] ) {
 	c2 = distribute2(dislikes, rooms, nstudents, t0);
 
 	//98. Output
-	printf("%lu;%lu;%lu\n", nstudents, c1, c2);
+	printf("%lu;%lu\n", c1, c2);
 
 	// 99. Cleanup
 	free(dislikes);
