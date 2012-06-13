@@ -5,18 +5,27 @@ EXEC="$2";
 NSTART="$3";
 NSTOP="$4";
 NSTEP="$5";
+TSTART="$6";
+TSTOP="$7";
+TSTEP="$8";
 
 OUTFILE="${PROCESSES}.csv";
-if [ ! -f "$OUTFILE" ];
+if [ -f "$OUTFILE" ];
 then
-	touch "$OUTFILE";
+	rm "$OUTFILE";
 fi;
+touch "$OUTFILE";
 	
 N=$NSTART;
 while [ "$N" -le "$NSTOP" ];
 do
-	echo -n "${N}..." 1>&2;
-	mpiexec -np $PROCESSES $EXEC "$N" >> "$OUTFILE";
-	echo "DONE" 1>&2;
+	T="$TSTART";
+	while [ "$T" -le "$TSTOP" ];
+	do
+		echo -n "(${N},${T})..." 1>&2;
+		mpiexec -np "$PROCESSES" $EXEC "$N" "$T" >> "$OUTFILE";
+		echo "DONE" 1>&2;
+		T=$(( $T + $TSTEP ));
+	done;
 	N=$(( $N + $NSTEP ));
 done;

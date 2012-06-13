@@ -1,6 +1,17 @@
 #!/bin/bash
-FIRST=$1;
-LAST=$2;
+
+if [ "$#" -gt "2" ];
+then
+	if [ "$3" ]; then export NFIRST="$3"; fi;
+	if [ "$4" ]; then export NLAST="$4";  fi;
+	if [ "$5" ]; then export NSTEP="$5";  fi;
+	if [ "$6" ]; then export TFIRST="$6"; fi;
+	if [ "$7" ]; then export TLAST="$7";  fi;
+	if [ "$8" ]; then export TSTEP="$8";  fi;
+fi;
+
+FIRST="$1";
+LAST="$2";
 
 for (( i=$FIRST ; i<=$LAST ; ++i ));
 do
