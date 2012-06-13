@@ -1,19 +1,20 @@
 #!/bin/bash
 
-if [ "$#" -gt "2" ];
-then
-	if [ "$3" ]; then export NFIRST="$3"; fi;
-	if [ "$4" ]; then export NLAST="$4";  fi;
-	if [ "$5" ]; then export NSTEP="$5";  fi;
-	if [ "$6" ]; then export TFIRST="$6"; fi;
-	if [ "$7" ]; then export TLAST="$7";  fi;
-	if [ "$8" ]; then export TSTEP="$8";  fi;
-fi;
+EXEC="$1";
+FIRST="$2";
+LAST="$3";
 
-FIRST="$1";
-LAST="$2";
+if [ "$#" -gt "3" ];
+then
+	if [ "$4" ]; then export NFIRST="$4"; fi;
+	if [ "$5" ]; then export NLAST="$5";  fi;
+	if [ "$6" ]; then export NSTEP="$6";  fi;
+	if [ "$7" ]; then export TFIRST="$7"; fi;
+	if [ "$8" ]; then export TLAST="$8";  fi;
+	if [ "$9" ]; then export TSTEP="$9";  fi;
+fi;
 
 for (( i=$FIRST ; i<=$LAST ; ++i ));
 do
-	qsub -V -e "data/out/hex_${i}.err" -o "data/out/hex_${i}.out" -N "distribute_${i}" -l nodes="${i}:hex:ppn=24" ./hex.bash;
+	qsub -V -e "data/out/hex-${EXEC}_${i}.err" -o "data/out/hex-${EXEC}_${i}.out" -N "${EXEC}_${i}" -l nodes="${i}:hex:ppn=24" $EXEC;
 done;

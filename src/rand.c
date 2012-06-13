@@ -5,7 +5,10 @@
 
 void randomseed (unsigned int seed) {srand(seed);}
 
-real randomr () {return (real) rand() / (real) RAND_MAX;}
+real randomr () {
+	real f = (real) rand() / (real) RAND_MAX;
+	return f;
+}
 
 unsigned long randomul_lim (unsigned long min ,unsigned long max) {
 	real f = randomr();

@@ -17,16 +17,27 @@ then
 fi;
 touch "$OUTFILE";
 	
-N=$NSTART;
-while [ "$N" -le "$NSTOP" ];
+T="$TSTART";
+while [ "$T" -le "$TSTOP" ];
 do
-	T="$TSTART";
-	while [ "$T" -le "$TSTOP" ];
+	echo "$T" >> "$OUTFILE";
+	N="$NSTART";
+	while [ "$N" -le "$NSTOP" ];
 	do
-		echo -n "(${N},${T})..." 1>&2;
-		mpiexec -np "$PROCESSES" $EXEC "$N" "$T" >> "$OUTFILE";
-		echo "DONE" 1>&2;
-		T=$(( $T + $TSTEP ));
+		R="1";
+		RESULTS="$N";
+		while [ "$R" -le "$RUNS" ];
+		do
+			echo -n "(${N},${T})..." 1>&2;
+			RESTMP=`mpiexec -np "$PROCESSES" $EXEC "$N" "$T"`;
+			RESULTS="${RESULTS};${RESTMP}";
+			echo "DONE" 1>&2;
+			R=$(( $R + 1 ));
+		done;
+		echo "$RESULTS" >> "$OUTFILE";
+		unset RESULTS;
+		N=$(( $N + $NSTEP ));
 	done;
-	N=$(( $N + $NSTEP ));
+	echo >> "$OUTFILE";
+	T=$(( $T + $TSTEP ));
 done;
