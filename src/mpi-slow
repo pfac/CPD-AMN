@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PROCESSES="$1";
-EXEC="$2";
-if [ "$5" ]; then NFIRST="$3"; else NFIRST=40; fi;
+EXEC="$1";
+PROCESSES="$2";
+if [ "$3" ]; then NFIRST="$3"; else NFIRST=40; fi;
 if [ "$4" ]; then NLAST="$4"; else NLAST=200; fi;
 if [ "$5" ]; then NSTEP="$5"; else NSTEP=4; fi;
 if [ "$6" ]; then TFIRST="$6"; else TFIRST=1; fi;
