@@ -1,7 +1,12 @@
 #include "archrand.h"
 
-#include <stdio.h>
+#ifdef BSD
 #include <stdlib.h>
+#else
+typedef unsigned char u_char;
+#include <bsd/stdlib.h>
+#endif
+
 #include <stdint.h>
 #include <limits.h>
 

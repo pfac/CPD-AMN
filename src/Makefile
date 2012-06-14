@@ -4,6 +4,10 @@ LDFLAGS	=	-lm
 
 GEN		?=	rand
 
+ifeq ($(GEN),arc4)
+LDFLAGS	+=	-lbsd
+endif
+
 %: %.o
 	$(CC) -o $@ $^ $(LOADLIBES) $(LDLIBS) $(LDFLAGS)
 
