@@ -26,27 +26,24 @@ sort "$PBS_NODEFILE" | uniq > "mpd.hosts";
 mpdboot --totalnum="$NODES" -f "$PBS_NODEFILE" --file="mpd.hosts";
 
 
-T="$TFIRST";
-while [ "$T" -le "$TLAST" ];
+R="1";
+while [ "$R" -le "$RUNS" ];
 do
-	echo "$T";
-	N="$NFIRST";
-	while [ "$N" -le "$NLAST" ];
+	T="$TFIRST";
+	while [ "$T" -le "$TLAST" ];
 	do
-		R="1";
-		RESULTS="$N";
-		while [ "$R" -le "$RUNS" ];
+		echo "$T";
+		N="$NFIRST";
+		while [ "$N" -le "$NLAST" ];
 		do
 			echo -n "(${N},${T})..." 1>&2;
-			RESTMP=`mpiexec -n "$PROCESSES" "$EXEC" "$N"`;
-			RESULTS="${RESULTS};${RESTMP}";
+			echo -n "$N";
+			mpiexec-n "$PROCESSES" "$EXEC" "$N" "$T";
 			echo "DONE" 1>&2;
-			R=$(( $R + 1 ));
+			N=$(( $N + $NSTEP ));
 		done;
-		echo "$RESULTS";
-		unset RESULTS;
-		N=$(( $N + $NSTEP ));
+		T=$(( $T + $TSTEP ));
 	done;
 	echo;
-	T=$(( $T + $TSTEP ));
+	R=$(( $R + 1 ));
 done;
