@@ -1,6 +1,6 @@
 #include "archrand.h"
 
-#ifdef BSD
+#ifdef __APPLE__
 #include <stdlib.h>
 #else
 typedef unsigned char u_char;

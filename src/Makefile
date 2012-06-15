@@ -1,3 +1,4 @@
+UNAME	=	$(shell uname)
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -std=c99 -pedantic
 LDFLAGS	=	-lm
@@ -5,7 +6,9 @@ LDFLAGS	=	-lm
 GEN		?=	rand
 
 ifeq ($(GEN),arc4)
+ifeq ($(UNAME),Linux)
 LDFLAGS	+=	-lbsd
+endif
 endif
 
 %: %.o
