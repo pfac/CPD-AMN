@@ -10,7 +10,7 @@ typedef unsigned char u_char;
 #include <stdint.h>
 #include <limits.h>
 
-void randomseed (unsigned int seed) {srand(seed);}
+void randomseed (unsigned int seed) {}
 
 #ifndef _LP64
 real randomr () {

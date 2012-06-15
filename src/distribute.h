@@ -1,7 +1,5 @@
 #include <math.h>
 
-#include "matrix.h"
-
 #define RATIO 100
 
 #ifndef	SIMULATED_ANNEALING
