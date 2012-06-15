@@ -1,5 +1,9 @@
 #include <math.h>
 
+#include "matrix.h"
+
+#define RATIO 100
+
 #ifndef	SIMULATED_ANNEALING
 unsigned long distribute1 (unsigned long * dislikes, unsigned long * rooms, unsigned long nstudents)
 #else
@@ -8,9 +12,9 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 {
 	unsigned long * assigned;
 	unsigned long   cost;
-	unsigned long   i;
+	unsigned long   i, j;
 	unsigned long   laststudent = nstudents - 1;
-	unsigned long   max = 100 * nstudents;
+	unsigned long   max = RATIO * nstudents;
 	unsigned long   p1;
 	unsigned long   p2;
 	unsigned long   r1;
@@ -43,7 +47,8 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	t = t0;
 #endif
 	i = max;
-	while (i)
+	j = RATIO;
+	while (cost && i && j)
 	{
 	//3.1. Find two students which are not roommates
 		do
@@ -92,7 +97,16 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 			rooms[r1 * 2 + p1] = s4;
 			rooms[r2 * 2 + p2] = s3;
 	//3.4.1.2. Update the total cost
-			cost += dcost;
+			if (dcost) {
+				cost += dcost;
+				j = RATIO;
+			} else
+				--j;
+#ifdef SIMULATED_ANNEALING
+				if (cost > 4000000000) {
+					return 0;
+				}
+#endif
 	//3.4.1.3. Reset iterations
 			i = max;
 		}
