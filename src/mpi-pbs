@@ -38,8 +38,8 @@ do
 		while [ "$N" -le "$NLAST" ];
 		do
 			echo -n "(${N},${T})..." 1>&2;
-			echo -n "$N;$T;";
-			mpiexec -machinefile "$PBS_NODEFILE" -n "$PROCESSES" "$EXEC" "$N" "$T";
+			echo -n "$N;";
+			mpiexec -n "$PROCESSES" "$EXEC" "$N" "$T";
 			echo "DONE" 1>&2;
 			N=$(( $N + $NSTEP ));
 		done;
@@ -48,6 +48,3 @@ do
 	echo;
 	R=$(( $R + 1 ));
 done;
-
-mpdallexit;
-rm "mpd.hosts";
