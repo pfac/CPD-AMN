@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-#PBS -N distribute
-#PBS -l nodes=3:r601:ppn=24
+#		to use with mpich2
 #PBS -l walltime=2:00:00
 #PBS -m bea
 #PBS -V
@@ -17,22 +15,38 @@ if [ ! "$TFIRST" ]; then TFIRST="1"; fi;
 if [ ! "$TLAST"  ]; then TLAST="1"; fi;
 if [ ! "$TSTEP"  ]; then TSTEP="1"; fi;
 
-echo "N from ${NFIRST} to ${NLAST} by ${NSTEP}";
-echo "T from ${TFIRST} to ${TLAST} by ${TSTEP}";
+if [ ! "$RUNS" ]; then RUNS="1"; fi;
 
 cd "$PBS_O_WORKDIR";
+NODES=`cat "$PBS_NODEFILE" | uniq | wc -l`;
 PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
+PROCESSES=1;
 
-N="$NFIRST";
-while [ "$N" -le "$NLAST" ];
+sort "$PBS_NODEFILE" | uniq > "mpd.hosts";
+mpdboot --totalnum="$NODES" -f "$PBS_NODEFILE" --file="mpd.hosts";
+
+
+T="$TFIRST";
+while [ "$T" -le "$TLAST" ];
 do
-	T="$TFIRST";
-	while [ "$T" -le "$TLAST" ];
+	echo "$T";
+	N="$NFIRST";
+	while [ "$N" -le "$NLAST" ];
 	do
-		echo -n "(${N},${T})..." 1>&2;
-		mpirun -np "$PROCESSES" -machinefile "$PBS_NODEFILE" -loadbalance "$EXEC" "$N" "$T";
-		echo "DONE" 1>&2;
-		T=$(( $T + $TSTEP ));
+		R="1";
+		RESULTS="$N";
+		while [ "$R" -le "$RUNS" ];
+		do
+			echo -n "(${N},${T})..." 1>&2;
+			RESTMP=`mpiexec -n "$PROCESSES" "$EXEC" "$N"`;
+			RESULTS="${RESULTS};${RESTMP}";
+			echo "DONE" 1>&2;
+			R=$(( $R + 1 ));
+		done;
+		echo "$RESULTS";
+		unset RESULTS;
+		N=$(( $N + $NSTEP ));
 	done;
-	N=$(( $N + $NSTEP ));
+	echo;
+	T=$(( $T + $TSTEP ));
 done;
