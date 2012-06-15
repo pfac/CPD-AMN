@@ -1,0 +1,40 @@
+#!/bin/bash
+
+EXEC="$1";
+PROCESSES="$2";
+if [ "$3" ]; then NFIRST="$3"; else NFIRST=40; fi;
+if [ "$4" ]; then NLAST="$4"; else NLAST=200; fi;
+if [ "$5" ]; then NSTEP="$5"; else NSTEP=4; fi;
+if [ "$6" ]; then TFIRST="$6"; else TFIRST=1; fi;
+if [ "$7" ]; then TLAST="$7"; else TLAST=1; fi;
+if [ "$8" ]; then TSTEP="$8"; else TSTEP=1; fi;
+if [ "$9" ]; then RUNS="$9"; else RUNS=1; fi;
+
+OUTFILE="mpi-${PROCESSES}.csv";
+if [ -f "$OUTFILE" ];
+then
+	rm "$OUTFILE";
+fi;
+touch "$OUTFILE";
+	
+R="1";
+while [ "$R" -le "$RUNS" ];		
+do
+	T="$TFIRST";
+	while [ "$T" -le "$TLAST" ];
+	do
+		echo "$T" >> "$OUTFILE";
+		N="$NFIRST";
+		while [ "$N" -le "$NLAST" ];
+		do
+			echo -n "(${N},${T})..." 1>&2;
+			echo -n "$N;" >> "$OUTFILE";
+			mpiexec -np "$PROCESSES" $EXEC "$N" "$T" >> "$OUTFILE";
+			echo "DONE" 1>&2;
+			N=$(( $N + $NSTEP ));
+		done;
+		T=$(( $T + $TSTEP ));
+	done;
+	echo >> "$OUTFILE";
+	R=$(( $R + 1 ));
+done;

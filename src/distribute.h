@@ -1,7 +1,5 @@
 #include <math.h>
 
-#define RATIO 100
-
 #ifndef	SIMULATED_ANNEALING
 unsigned long distribute1 (unsigned long * dislikes, unsigned long * rooms, unsigned long nstudents)
 #else
@@ -12,7 +10,7 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	unsigned long   cost;
 	unsigned long   i, j;
 	unsigned long   laststudent = nstudents - 1;
-	unsigned long   max = RATIO * nstudents;
+	unsigned long   max = nstudents * nstudents;
 	unsigned long   p1;
 	unsigned long   p2;
 	unsigned long   r1;
@@ -45,7 +43,7 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	t = t0;
 #endif
 	i = max;
-	j = RATIO;
+	j = nstudents;
 	while (cost && i && j)
 	{
 	//3.1. Find two students which are not roommates
@@ -97,7 +95,7 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	//3.4.1.2. Update the total cost
 			if (dcost) {
 				cost += dcost;
-				j = RATIO;
+				j = nstudents;
 			} else
 				--j;
 #ifdef SIMULATED_ANNEALING

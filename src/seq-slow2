@@ -1,0 +1,39 @@
+#!/bin/bash
+
+EXEC="$1";
+if [ "$2" ]; then NFIRST="$2"; else NFIRST=40; fi;
+if [ "$3" ]; then NLAST="$3"; else NLAST=200; fi;
+if [ "$4" ]; then NSTEP="$4"; else NSTEP=4; fi;
+if [ "$5" ]; then TFIRST="$5"; else TFIRST=1; fi;
+if [ "$6" ]; then TLAST="$6"; else TLAST=1; fi;
+if [ "$7" ]; then TSTEP="$7"; else TSTEP=1; fi;
+if [ "$8" ]; then RUNS="$8"; else RUNS=1; fi;
+
+OUTFILE="seq.csv";
+if [ -f "$OUTFILE" ];
+then
+	rm "$OUTFILE";
+fi;
+touch "$OUTFILE";
+	
+R="1";
+while [ "$R" -le "$RUNS" ];		
+do
+	T="$TFIRST";
+	while [ "$T" -le "$TLAST" ];
+	do
+		echo "$T" >> "$OUTFILE";
+		N="$NFIRST";
+		while [ "$N" -le "$NLAST" ];
+		do
+			echo -n "(${N},${T})..." 1>&2;
+			echo -n "$N;" >> "$OUTFILE";
+			$EXEC "$N" "$T" >> "$OUTFILE";
+			echo "DONE" 1>&2;
+			N=$(( $N + $NSTEP ));
+		done;
+		T=$(( $T + $TSTEP ));
+	done;
+	echo >> "$OUTFILE";
+	R=$(( $R + 1 ));
+done;
