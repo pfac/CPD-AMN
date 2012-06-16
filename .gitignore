@@ -1,35 +1,5 @@
-# Executables
-distribute
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-
-# Compiled Dynamic libraries
-*.so
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-
 # Vim temporary files
 *.swp
 
 # System files
 .DS_Store
-
-# Output files
-*.err
-*.out
-
-# LaTeX generated files
-*.aux
-*.log
-*.pdf
-*.synctex.gz
-
-# BibTeX generated files
-*.bbl
-*.blg

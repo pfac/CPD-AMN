@@ -5,7 +5,7 @@
 #PBS -V
 #
 
-EXEC="mpi"
+EXEC="./mpi"
 
 if [ ! "$NFIRST" ]; then NFIRST="40"; fi;
 if [ ! "$NLAST"  ]; then NLAST="200"; fi;
@@ -18,12 +18,13 @@ if [ ! "$TSTEP"  ]; then TSTEP="1"; fi;
 if [ ! "$RUNS" ]; then RUNS="1"; fi;
 
 cd "$PBS_O_WORKDIR";
-NODES=`cat "$PBS_NODEFILE" | uniq | wc -l`;
-PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
-PROCESSES=1;
 
 sort "$PBS_NODEFILE" | uniq > "mpd.hosts";
-mpdboot --totalnum="$NODES" -f "$PBS_NODEFILE" --file="mpd.hosts";
+
+NODES=`cat "mpd.hosts" | wc -l`;
+PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
+
+mpdboot -n "$NODES" -f "mpd.hosts";
 
 
 R="1";
@@ -37,8 +38,8 @@ do
 		while [ "$N" -le "$NLAST" ];
 		do
 			echo -n "(${N},${T})..." 1>&2;
-			echo -n "$N";
-			mpiexec-n "$PROCESSES" "$EXEC" "$N" "$T";
+			echo -n "$N;$T;";
+			mpiexec -machinefile "$PBS_NODEFILE" -n "$PROCESSES" "$EXEC" "$N" "$T";
 			echo "DONE" 1>&2;
 			N=$(( $N + $NSTEP ));
 		done;
@@ -47,3 +48,6 @@ do
 	echo;
 	R=$(( $R + 1 ));
 done;
+
+mpdallexit;
+rm "mpd.hosts";

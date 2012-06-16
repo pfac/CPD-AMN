@@ -1,0 +1,13 @@
+# Output files
+*.err
+*.out
+
+# LaTeX generated files
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+
+# BibTeX generated files
+*.bbl
+*.blg
