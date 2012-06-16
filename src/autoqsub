@@ -16,7 +16,9 @@ then
 fi;
 
 XNAME=`basename "$EXEC"`;
-for (( i=$FIRST ; i<=$LAST ; ++i ));
+i="$FIRST";
+while [ "$i" -le "$LAST" ];
 do
 	qsub -V -e "data/out/hex-${XNAME}_${i}.err" -o "data/out/hex-${XNAME}_${i}.out" -N "${XNAME}_${i}" -l nodes="${i}:hex:ppn=24" $EXEC;
+	i=$(( $i + 1 ));
 done;
