@@ -79,7 +79,7 @@ int main ( int argc , char * argv[] ) {
 
 	dislikes = (unsigned long *) malloc( nstudents * nstudents * sizeof(unsigned long));
 
-	srand(time(NULL) * (mpi_rank + 1));
+	randomseed(time(NULL) * (mpi_rank + 1));
 
 	if (!mpi_rank)
 	{
