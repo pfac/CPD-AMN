@@ -27,8 +27,6 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 #endif
 #ifdef  LIMITED
 	unsigned long k = LIMITED;
-#else
-	unsigned long k = 0;
 #endif
 
 	//0. Create the assigned vector
@@ -128,15 +126,12 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 		//	If the iteration limit is activated, decrease the counter
 		#ifdef	LIMITED
 			--k;
-		#else
-			++k;
 		#endif
 	}
 
 	//99. Cleanup
 	free(assigned);
 
-	// return cost;
-	return k;
+	return cost;
 }
 
