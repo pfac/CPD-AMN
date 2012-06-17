@@ -1,2 +1,2 @@
 all:
-	DIR=`basename "$${PWD}"`; cd ..; $(MAKE) "$${DIR}";
+	DIR=`basename "$${PWD}"`; cd ..; $(MAKE) "$${DIR}.pdf";

@@ -1,6 +1,10 @@
 \subsection{Methodology}
 \label{sec:methodology}
 
-The two described versions of the implementation described in this document were measured separately with the same methodology. Both were measured for different values of $n$ from 40 to 200 with a step of 4, with only one execution, and the approach with simulated annealing was tested using $T_{0}=1$ and $T_{0}=10$. For each pair of $(n,T_{0})$, only one execution was performed.
+The two versions of the implementation described in this document were measured separately with the same methodology. Both were measured for different values of $n$ from 40 to 200 with a step of 4. The approach with simulated annealing was tested using $T_{0}=1$, $T_{0}=10$ and $T_{0}=10^{4}$. Larger values of $n$ were intended, but due to problems in using the SeARCH cluster and execution time constraints, such tests could not be completed.
 
-The distributed memory version was also tested using different numbers of processes, until the maximum hardware threads available in the SeARCH Group Hex.
+For each pair of $(n,T_{0})$, 10 executions were performed. When comparing the final solution cost, the accepted resulting value is the minimum value of all executions. For comparing numbers of iterations, the average of all executions is accepted as result.
+
+The distributed memory version was also tested using different numbers of processes. Tests up to 16 processes were performed in the MacBook laptop. Any test greater than that was performed using SeARCH Group Hex nodes.
+
+When relevant, cost related tests were also performed using two different \textit{Pseudo-Random Number Generators} (PRNG): the classic \texttt{rand} generator, present in the C standard library, but often described as a very weak generator; and the \texttt{arc4} generator, present in the BSD library, often described as the best alternative for \texttt{rand}. The \texttt{arc4} generator is not available in the SeARCH cluster.

@@ -1,0 +1,8 @@
+\subsection{Analysis}
+\label{sec:analysis}
+
+As shown by the values in \cref{fig:seq}, the advantage in using simulated annealing is clear. By letting the algorithm follow worse solutions in the beginning, it achieved values around 78\% better (average) than those of the basic version. In fact, in the sequential version, basic approach never even obtained the perfect solution.
+
+Taking advantage of parallelism, therefore allowing more solutions to be computed at the same time introduced even greater improvements. But even with 16 processes the basic approach barely touched the perfect solutions. The simulated annealing method, on the other hand, obtained the perfect solution in most cases. Compared with the basic approach in the sequential version, the improvement with simulated annealing and using 16 processes is around 94\% (average).
+
+Changing the initial temperature in the simulated annealing approach did not influence (almost at all) the algorithm's execution for the values selected for $n$. Partial solutions with greater values for $n$ (between 500 and 1000) showed the behavior described in \cite{Quinn2004}. Yet, since no useful complete execution could be retrieved to include in this document, the initial range, retested using a limited number of iterations, showed that greater initial temperatures cause the algorithm to diverge at first, which slows the convergence of the method.

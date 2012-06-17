@@ -1,4 +1,4 @@
-\documentclass[draft,abstract=on,9pt,twocolumn]{scrartcl}
+\documentclass[abstract=on,9pt,twocolumn]{scrartcl}
 
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
@@ -24,19 +24,23 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{subfig}
-% \usepackage{caption}
-% \usepackage{subcaption}
 
 %%%%%%%%%%%%%%%%
 %  title page  %
 %%%%%%%%%%%%%%%%
-\titlehead{University of Minho \hfill Master's Degree in Informatics Engineering\\	Department of Informatics \hfill Parallel and Distributed Computing}
+\titlehead{University of Minho \hfill Master's Degree in Informatics Engineering\\Department of Informatics \hfill Parallel and Distributed Computing\\\centering Group 1}
 
 \title{Simulated Annealing}
 
 \subtitle{The Room Assignment Problem}
 
-\author{{\larger Group 1}\\Miguel Palhas \hfill--- \texttt{\smaller pg19808@alunos.uminho.pt}\\Pedro Costa \hfill--- \texttt{\smaller pg19830@alunos.uminho.pt}\\}
+\author{
+    \\Miguel Palhas\\
+     	\texttt{\smaller pg19808@alunos.uminho.pt}
+\and Group 1\\~\\~
+\and\\Pedro Costa\\
+		\texttt{\smaller pg19830@alunos.uminho.pt}
+}
 
 \date{Braga, \docdate}
 
@@ -68,15 +72,15 @@
 
 
 \begin{document}
-\maketitle
+	\maketitle
+	\input{report/00-abstract.tex}
+	\input{report/10-intro.tex}
+	\input{report/20-problem.tex}
+	\input{report/30-implementation.tex}
+	\input{report/40-comparison.tex}
+	\input{report/80-conclusion.tex}
 
-\input{report/10-intro.tex}
-\input{report/20-problem.tex}
-\input{report/30-implementation.tex}
-\input{report/40-comparison.tex}
-\input{report/80-conclusion.tex}
-
-\bibliographystyle{cell}
-\bibliography{references}
+	\bibliographystyle{cell}
+	\bibliography{references}
 
 \end{document}

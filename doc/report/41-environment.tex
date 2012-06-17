@@ -1,13 +1,15 @@
 \subsection{Environmental Setup}
 \label{sec:environment}
-All the tests were performed in the SeARCH cluster\footnote{\texttt{http://search.di.uminho.pt}} using a specific group of computational nodes, referred in this document as SeARCH Group Hex. This group contains six nodes, each with two hex-core processors and up to 48 GB of RAM. The detailed hardware description for the nodes in this group is presented in \cref{tab:grouphex}.
+All the tests were meant to performed in the SeARCH cluster\footnote{\texttt{http://search.di.uminho.pt}} using a specific group of computational nodes, referred in this document as SeARCH Group Hex. Yet, due to problems in using this cluster, most tests ended up being tested in a MacBook Pro laptop.
+
+SeARCH Group Hex contains twelve nodes, each with two hex-core processors (with Intel{\textsuperscript{\textregistered}} Hyper-Threading Technology) and up to 48 GB of RAM. The detailed hardware description for the nodes in this group is presented in \cref{tab:grouphex}.
 
 \begin{table}[!htp]
 	\begin{center}
 		\begin{tabular}{ll}
 			\hline
 			Processors per node: & 2	\\
-			Processor model: & Intel\textregistered Xeon\textregistered X5650\\
+			Processor model: & Intel{\textsuperscript{\textregistered}} Xeon{\textsuperscript{\textregistered}} X5650\\
 			Cores per processor: & 6	\\
 			Threads per core: & 2	\\
 			Clock frequency: & 2.66 GHz	\\
@@ -20,5 +22,28 @@ All the tests were performed in the SeARCH cluster\footnote{\texttt{http://searc
 		\end{tabular}
 		\caption[SeARCH Group Hex hardware description]{SeARCH Group Hex hardware description. See \cite{xeon5600} for further detail about this processor.}
 		\label{tab:grouphex}
+	\end{center}
+\end{table}
+
+The MacBook Pro laptop used for the tests is a mid-2010 model with one dual-core processor (with Intel{\textsuperscript{\textregistered}} Hyper-Threading Technology) and 4GB of RAM. The detailed hardware description for this laptop is present in \cref{tab:mbp}.
+
+\begin{table}[!htp]
+	\begin{center}
+		\begin{tabular}{ll}
+			\hline
+			Processors: & 1	\\
+			Processor model: & Intel{\textsuperscript{\textregistered}} Core{\textsuperscript{\texttrademark}} i5-520M\\
+			Cores per processor: & 2	\\
+			Threads per core: & 2	\\
+			Clock frequency: & 2.40 GHz	\\
+			\hline
+			L1 cache: & 32 KB + 32 KB per core	\\
+			L2 cache: & 256 KB per core	\\
+			L3 cache: & 3 MB shared	\\
+			RAM: & 4 GB	@ 1067 MHz (DDR3)\\
+			\hline
+		\end{tabular}
+		\caption[MacBook Pro mid-2010 hardware description]{MacBook Pro mid-2010 hardware description. See \cite{i5-520m} for further detail about this processor.}
+		\label{tab:mbp}
 	\end{center}
 \end{table}

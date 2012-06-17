@@ -1,2 +1,14 @@
 \section{Conclusion}
 \label{sec:conclusion}
+
+In this document, the simulated annealing method was studied using the Roommate Assignment Problem. Since the problem is too computationally heavy to solve deterministically, an heuristic method was used.
+
+The method used generates a random distribution and continuously swaps students, reverting the change when such implies an increase in the sum of incompatibilities. The simulated annealing approach changes the decision of change acceptance to allow worse solutions depending on the system temperature, which decreases slowly.
+
+Two versions were implemented using both the basic and the simulated annealing approach. The first version, sequential, generates the incompatibility matrix and solves the problem using the described method. The second version used multiple processes in parallel, each independently working on a solution with a different sequence of random numbers, accepting only the best of all the solutions computed.
+
+Both versions were tested with different numbers of students and initial temperatures. Simulated annealing was proved to greatly improve the results of the method, being this effect amplified in the parallel version. Regarding the variation of temperature, variations using a few hundreds of students did not influence the results noticeably. Yet, analyzing the first iterations, those same tests prove the textbook's claims that increasing the initial temperature slows the convergence of the method. Tests were intended with greater numbers of students but environmental hazards prevented such.
+
+An extra comparison was also performed, between the \texttt{rand} and \texttt{arc4} PRGNs. While the latter is claimed to be a lot better the former, and such was already suspected during the development phase, the fact is that the results do not conclusively favor either. Further testing could be useful to find out if either helps the convergence of the method.
+
+As stated earlier, further testing was prevented mainly due to problems in using the SeARCH cluster. Problems were early detected with using MPI, but to the end the system revealed some inconsistencies, from libraries failing only sometimes to nodes working perfectly on one execution, and crashing in the next. Several issued tests also remained idle in the nodes for hours (the CPU used time remained nearly null). The same code used in these tests was used locally to retrieve the values presented in this document, proving their functionality.
