@@ -1,0 +1,14 @@
+#!/bin/bash
+#	compile using module gnu/mpich2-eth
+#
+#PBS -m bea
+source "/etc/profile.d/env-modules.sh";
+module purge;
+module load gnu/mpich2-eth;
+cd "$PBS_O_WORKDIR";
+NODES=`sort "$PBS_NODEFILE" | uniq | tee "mpd.hosts" | wc -l`;
+PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
+mpdboot -n "$NODES";
+echo `mpiexec -machinefile "$PBS_NODEFILE" -n "$PROCESSES" "./mpi" "200"`;
+mpdallexit;
+rm "mpd.hosts";
