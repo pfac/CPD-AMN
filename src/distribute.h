@@ -23,7 +23,12 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	unsigned long   s4;
 	long   dcost;
 #ifdef	SIMULATED_ANNEALING
-	real   t;
+	real   t = t0;
+#endif
+#ifdef  LIMITED
+	unsigned long k = LIMITED;
+#else
+	unsigned long k = 0;
 #endif
 
 	//0. Create the assigned vector
@@ -39,12 +44,13 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	cost = distribute_random(dislikes, rooms, assigned, nstudents);
 
 	//3. While no max iterations have passed since the last accepted swap
-#ifdef	SIMULATED_ANNEALING
-	t = t0;
-#endif
 	i = max;
 	j = nstudents;
+#ifndef LIMITED
 	while (cost && i && j)
+#else
+	while (k && cost && i && j)
+#endif
 	{
 	//3.1. Find two students which are not roommates
 		do
@@ -98,11 +104,12 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 				j = nstudents;
 			} else
 				--j;
-#ifdef SIMULATED_ANNEALING
-				if (cost > 4000000000) {
-					return 0;
-				}
-#endif
+
+			//	if simulated annealing is on, since sometimes dcost is negative and |dcost| > cost, if such happens, assume the value should be zero and wrap up
+			#ifdef SIMULATED_ANNEALING
+				if (cost && dcost < 0 && ((unsigned long)(- dcost)) > cost)
+					cost = 0;
+			#endif
 	//3.4.1.3. Reset iterations
 			i = max;
 		}
@@ -112,14 +119,24 @@ unsigned long distribute2 (unsigned long * dislikes, unsigned long * rooms, unsi
 	//3.4.2.1. Count one more boring iteration
 			--i;
 		}
-#ifdef	SIMULATED_ANNEALING
-		t *= 0.999;
-#endif
+
+		//	If simulated annealing is activated, cool the system
+		#ifdef	SIMULATED_ANNEALING
+			t *= 0.999;
+		#endif
+
+		//	If the iteration limit is activated, decrease the counter
+		#ifdef	LIMITED
+			--k;
+		#else
+			++k;
+		#endif
 	}
 
 	//99. Cleanup
 	free(assigned);
 
-	return cost;
+	// return cost;
+	return k;
 }
 

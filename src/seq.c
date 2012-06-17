@@ -68,6 +68,8 @@ int main ( int argc , char * argv[] ) {
 
 	//98. Output
 	printf("%lu;%lu\n", c1, c2);
+	// printf("%lu\n", c1);
+	// printf("%lu\n", c2);
 
 	// 99. Cleanup
 	free(dislikes);
