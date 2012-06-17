@@ -1,6 +1,7 @@
 #	Executables
 seq
 mpi
+lim
 
 #	Output files
 *.csv
