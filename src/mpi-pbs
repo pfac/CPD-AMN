@@ -2,8 +2,10 @@
 #		to use with mpich2
 #PBS -l walltime=2:00:00
 #PBS -m bea
-#PBS -V
 #
+source "/etc/profile.d/env-modules.sh";
+module purge;
+module load gnu/mpich2-eth;
 
 EXEC="./mpi"
 
@@ -19,13 +21,10 @@ if [ ! "$RUNS" ]; then RUNS="1"; fi;
 
 cd "$PBS_O_WORKDIR";
 
-sort "$PBS_NODEFILE" | uniq > "mpd.hosts";
-
-NODES=`cat "mpd.hosts" | wc -l`;
+NODES=`sort "$PBS_NODEFILE" | uniq | tee "mpd.hosts" | wc -l`;
 PROCESSES=`cat "$PBS_NODEFILE" | wc -l`;
 
 mpdboot -n "$NODES" -f "mpd.hosts";
-
 
 R="1";
 while [ "$R" -le "$RUNS" ];
