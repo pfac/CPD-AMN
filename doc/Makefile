@@ -4,7 +4,7 @@ BIBTEX	=	bibtex
 
 COMPILE.tex	=	$(PDFTEX) $(*F).tex > /dev/null
 
-COMPILE.bib =	$(BIBTEX) $(*F) > /dev/null
+COMPILE.bib =	-$(BIBTEX) $(*F) > /dev/null
 
 DIRS	=	. report
 DOCS	=	report
@@ -24,7 +24,7 @@ DOCS	=	report
 
 .PHONY: clean clean-pdf clean-bib view check
 
-default:	report.pdf
+default:	slides.pdf
 
 all: $(DOCS)
 
