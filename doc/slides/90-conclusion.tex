@@ -7,9 +7,29 @@
 	\begin{itemize}
 		\item{Simulated annealing gets better results;
 		\begin{itemize}
-			\item{Average $80\%$ for the values tested;}
+			\item{Average $80\%$ improvement for the values tested;}
 		\end{itemize}
 		}
-		\item{}
+		\item{Multiple executions in parallel allow significantly better results with the same effort;
+		\begin{itemize}
+			\item{Average $99.7\%$ improvement with 72 processes;}
+		\end{itemize}
+		}
+		\item{Varying initial temperature:
+		\begin{itemize}
+			\item{Has no significant impact on final results;
+			\begin{itemize}
+				\item{Might be different for larger values of $n$;}
+			\end{itemize}
+			}
+			\item{Causes divergence in the beginning;}
+			\item{Larger values of $n$ slow down convergence;
+			\begin{itemize}
+				\item{No larger tests were able to complete;}
+			\end{itemize}
+			}
+		\end{itemize}
+		}
+		\item{Problems using SeARCH prevented further testing.}
 	\end{itemize}
 \end{frame}
