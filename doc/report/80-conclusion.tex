@@ -1,4 +1,4 @@
-\section{Conclusion}
+ \section{Conclusion}
 \label{sec:conclusion}
 
 In this document, the simulated annealing method was studied using the Room Assignment problem. Since the problem is too computationally heavy to solve deterministically, an heuristic method was used.
@@ -13,4 +13,4 @@ An extra comparison was also performed, between the \texttt{rand} and \texttt{ar
 
 As stated above, further testing was prevented mainly due to problems in using the SeARCH cluster. Problems were early detected with using MPI, but in the end the system revealed some inconsistencies, from libraries failing only sometimes to nodes working perfectly in one execution, and crashing in the next. Several issued tests also remained idle in the nodes for hours (the CPU used time remained nearly null). The same code used in these tests was executed locally to retrieve the values presented in this document, proving its functionality. While some tests were able to complete and their results are included in this document, the problems were not completely solved.
 
-Additionally, since this project does not focus on improving execution times, the necessity to define a walltime limit in cluster jobs presented itself has an obstacle, as it prevented many slow tests from completing (some exceeded a 6 hour limit).
+Additionally, since this project does not focus on improving execution times, the necessity to define a wall time limit in cluster jobs presented itself has an obstacle, as it prevented many slow tests from completing (some exceeded a 6 hour limit).
