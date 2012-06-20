@@ -20,24 +20,24 @@
 \headcommand {\sectionentry {3}{Experiment}{8}{Experiment}{0}}
 \headcommand {\beamer@sectionpages {7}{7}}
 \headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{8}{Basic vs. Simulated Annealing}}\headcommand {\beamer@subsectionpages {8}{7}}
-\headcommand {\slideentry {3}{1}{1}{8/8}{Basic vs. Simulated Annealing}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{8}{Methodology}}\headcommand {\beamer@subsectionpages {8}{7}}
+\headcommand {\slideentry {3}{1}{1}{8/8}{Methodology}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{9}{Initial temperature}}\headcommand {\beamer@subsectionpages {8}{8}}
-\headcommand {\slideentry {3}{2}{1}{9/9}{Initial temperature}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{9}{Cost}}\headcommand {\beamer@subsectionpages {8}{8}}
+\headcommand {\slideentry {3}{2}{1}{9/9}{Cost}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\sectionentry {4}{Conclusion}{10}{Conclusion}{0}}
-\headcommand {\beamer@sectionpages {8}{9}}
-\headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\sectionentry {5}{Conclusion}{10}{Conclusion}{0}}
-\headcommand {\beamer@sectionpages {10}{9}}
-\headcommand {\beamer@subsectionpages {10}{9}}
-\headcommand {\slideentry {5}{0}{2}{10/10}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{10}{Initial temperature}}\headcommand {\beamer@subsectionpages {9}{9}}
+\headcommand {\slideentry {3}{3}{1}{10/10}{Initial temperature}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {5}{0}{3}{11/11}{}{0}}
+\headcommand {\sectionentry {4}{Conclusion}{11}{Conclusion}{0}}
+\headcommand {\beamer@sectionpages {8}{10}}
+\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\slideentry {4}{0}{2}{11/11}{}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\beamer@partpages {1}{11}}
-\headcommand {\beamer@subsectionpages {10}{11}}
-\headcommand {\beamer@sectionpages {10}{11}}
-\headcommand {\beamer@documentpages {11}}
-\headcommand {\def \inserttotalframenumber {9}}
+\headcommand {\slideentry {4}{0}{3}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@partpages {1}{12}}
+\headcommand {\beamer@subsectionpages {11}{12}}
+\headcommand {\beamer@sectionpages {11}{12}}
+\headcommand {\beamer@documentpages {12}}
+\headcommand {\def \inserttotalframenumber {10}}

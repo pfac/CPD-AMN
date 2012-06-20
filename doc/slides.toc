@@ -5,7 +5,7 @@
 \beamer@subsectionintoc {1}{2}{Simulated Annealing}{5}{0}{1}
 \beamer@sectionintoc {2}{Implementation}{7}{0}{2}
 \beamer@sectionintoc {3}{Experiment}{8}{0}{3}
-\beamer@subsectionintoc {3}{1}{Basic vs. Simulated Annealing}{8}{0}{3}
-\beamer@subsectionintoc {3}{2}{Initial temperature}{9}{0}{3}
-\beamer@sectionintoc {4}{Conclusion}{10}{0}{4}
-\beamer@sectionintoc {5}{Conclusion}{10}{0}{5}
+\beamer@subsectionintoc {3}{1}{Methodology}{8}{0}{3}
+\beamer@subsectionintoc {3}{2}{Cost}{9}{0}{3}
+\beamer@subsectionintoc {3}{3}{Initial temperature}{10}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{11}{0}{4}

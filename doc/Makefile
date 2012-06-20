@@ -42,6 +42,7 @@ report.aux: report/80-conclusion.tex
 slides.aux: slides/10-problem.tex
 slides.aux: slides/20-implementation.tex
 slides.aux:	slides/30-experiment.tex
+slides.aux:	slides/31-methodenv.tex
 slides.aux: slides/90-conclusion.tex
 
 check:
