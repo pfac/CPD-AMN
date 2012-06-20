@@ -1,2 +1,36 @@
 \section{Implementation}
 \label{sec:implementation}
+
+\begin{frame}
+	\frametitle{Implementation}
+	\begin{itemize}
+		\item{$n$ and $T_{0}$ as arguments;}
+		\vfill
+		\item{Generate a new incompatibility matrix;}
+		\vfill
+		\item{Inject perfect solution;}
+		\vfill
+		\item{Solve the problem (both approaches);}
+		\vfill
+		\item{Parallelism:
+		\begin{itemize}
+			\item{Each process solves the problem independently;}
+			\item{Reduction to find the cost of the best solution;}
+		\end{itemize}
+		}
+	\end{itemize}
+	% \begin{block}{Bug spray:}
+	% 	\begin{itemize}
+	% 		\item{\textit{Enough is enough!}
+	% 		\begin{itemize}
+	% 			\item{Give up after $\Delta = 0$ acceptances;}
+	% 		\end{itemize}
+	% 		}
+	% 		\item{\textit{Where are you going?}
+	% 		\begin{itemize}
+	% 			\item{Prevent out-of-range values.}
+	% 		\end{itemize}
+	% 		}
+	% 	\end{itemize}
+	% \end{block}
+\end{frame}

@@ -1,2 +1,58 @@
 \section{Problem}
 \label{sec:problem}
+
+\subsection{Roommate Assignment}
+\begin{frame}
+	\frametitle{The Roommate Assignment Problem}
+	\begin{itemize}
+		\item{Distribute $n$ students over $\frac{n}{2}$ rooms;}
+		\vfill
+		\item{Find $S$ such that $\mathrm{cost}(S)$;}
+		\vfill
+		\item{Too complex to solve with deterministic methods;}
+	\end{itemize}
+\pause
+	\begin{block}{Heuristic method}
+		\begin{enumerate}
+			\item{Random initial distribution;}
+			\item{Iteration:
+			\begin{enumerate}
+				\item{Randomly select two students;}
+				\item{Swap them;}
+				\item{If better, accept and reset threshold;}
+			\end{enumerate}
+			}
+			\item{Repeat 2 until threshold reached.}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\subsection{Simulated Annealing}
+\begin{frame}
+	\frametitle{Simulated Annealing}
+	\begin{block}{Heuristic method}
+		\begin{enumerate}
+			\item{Random initial distribution;}
+			\item{Iteration:
+			\begin{enumerate}
+				\item{Randomly select two students;}
+				\item{Swap them;}
+				\item{If better, accept and reset threshold;}
+			\end{enumerate}
+			}
+			\item{Repeat 2 until threshold reached.}
+		\end{enumerate}
+	\end{block}
+\pause
+	\begin{block}{Simulated Annealing}
+		\begin{enumerate}
+			\item{$T=T_{0}\enspace$;}
+			\item{Iteration:
+			\begin{enumerate}
+				\item{Accept worse solutions if $\xi < e^{- \Delta/T}\enspace$;}
+			\end{enumerate}
+			}
+			\item{Cool the system.}
+		\end{enumerate}
+	\end{block}
+\end{frame}

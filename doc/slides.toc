@@ -1,6 +1,11 @@
 \beamer@endinputifotherversion {3.17pt}
 \select@language {english}
 \beamer@sectionintoc {1}{Problem}{3}{0}{1}
-\beamer@sectionintoc {2}{Implementation}{3}{0}{2}
-\beamer@sectionintoc {3}{Experiment}{3}{0}{3}
-\beamer@sectionintoc {4}{Conclusion}{3}{0}{4}
+\beamer@subsectionintoc {1}{1}{Roommate Assignment}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Simulated Annealing}{5}{0}{1}
+\beamer@sectionintoc {2}{Implementation}{7}{0}{2}
+\beamer@sectionintoc {3}{Experiment}{8}{0}{3}
+\beamer@subsectionintoc {3}{1}{Basic vs. Simulated Annealing}{8}{0}{3}
+\beamer@subsectionintoc {3}{2}{Initial temperature}{9}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{10}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{10}{0}{5}
