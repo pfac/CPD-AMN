@@ -1,4 +1,6 @@
 \section{The Room Assignment Problem}
+\label{sec:problem}
+
 The room assignment problem is a combinatorial optimization problem where the simulated annealing method allows better solutions to be achieved.
 
 The problem consists in assigning $n$ students to $\frac{n}{2}$ rooms, but in a way that minimizes the probability of a conflict occurring. The chances for such conflicts to occur are measured in a matrix $D$ of $n^{2}$ integer values, where each element $d_{i,j} = d_{j,i}$ represents how much students $i$ and $j$ dislike each other. In any iteration, the current system state is represented by a vector $S$ of $\frac{n}{2}$ pairs of elements, where each pair $(i,j)$ represents the two students assigned to a room\footnote{Since $d_{i,j}=d_{j,i}$ then $(i,j)\in S\Leftrightarrow(j,i)\in S$. In other words, the order within the pair is neglected.}. The total cost of a state $S$ is given by the sum of all the $d_{i,j}$, where $(i,j)\in S$. A formal definition of this problem as an optimization problem is presented in \cref{fig:formaldef}.

@@ -24,7 +24,7 @@ DOCS	=	report
 
 .PHONY: clean clean-pdf clean-bib view check
 
-default:	slides.pdf
+default:	report.pdf
 
 all: $(DOCS)
 
@@ -46,15 +46,6 @@ slides.aux: slides/images/rand-01.png
 slides.aux: slides/images/rand-192.png
 slides.aux:	slides/31-methodenv.tex
 slides.aux: slides/90-conclusion.tex
-
-check:
-	for d in $(DIRS);
-	do
-		for f in `ls "$d" | grep "tex"`;
-		do
-			hunspell "$f";
-		done;
-	done;
 
 view: all
 	open $(DOCS)	
