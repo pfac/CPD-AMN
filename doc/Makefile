@@ -53,7 +53,7 @@ view: all
 clean:	clean-pdf clean-bib
 
 clean-pdf:
-	$(RM) *.{aux,out,log,synctex.gz,pdf}
+	$(RM) *.{aux,out,log,synctex.gz,pdf,nav,snm,toc}
 
 clean-bib:
 	$(RM) *.{bbl,blg}
